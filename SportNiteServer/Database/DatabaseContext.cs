@@ -13,5 +13,8 @@ public class DatabaseContext : DbContext
 
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
-        optionsBuilder.UseMySQL("server=localhost;database=sportnite;user=root;password=12345678");
+        optionsBuilder
+            .UseMySQL("server=localhost;database=sportnite;user=root;password=12345678")
+            .UseLoggerFactory(LoggerFactory.Create(builder => builder.AddConsole()))
+            .EnableSensitiveDataLogging();
 }

@@ -24,6 +24,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddTransient<AuthService>();
+builder.Services.AddTransient<OfferService>();
 
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -42,9 +43,12 @@ builder.Services
 builder.Services
     .AddGraphQLServer()
     .AddAuthorization()
+    .AddSorting()
     .RegisterDbContext<DatabaseContext>()
     .RegisterService<AuthService>()
-    .AddQueryType<Query>();
+    .RegisterService<OfferService>()
+    .AddQueryType<Query>()
+    .AddMutationType<Mutation>();
 
 var app = builder.Build();
 
