@@ -1,9 +1,12 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace SportNiteServer.Entities;
 
 public class Offer
 {
-    public int OfferId { get; set; }
-    public int UserId { get; set; }
+    [Key]
+    public Guid OfferId { get; set; }
+    public Guid UserId { get; set; }
     public string Description { get; set; }
     public DateTime DateTime { get; set; }
     public double Latitude { get; set; }

@@ -1,10 +1,12 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace SportNiteServer.Entities;
 
 public class Response
 {
-    public int ResponseId { get; set; }
-    public int OfferId { get; set; }
-    public int UserId { get; set; }
+    [Key] public Guid ResponseId { get; set; }
+    public Guid OfferId { get; set; }
+    public Guid UserId { get; set; }
     public ResponseStatus Status { get; set; }
     public string Description { get; set; }
 
