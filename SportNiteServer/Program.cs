@@ -1,5 +1,3 @@
-using FirebaseAdmin;
-using Google.Apis.Auth.OAuth2;
 using HotChocolate.AspNetCore;
 using HotChocolate.AspNetCore.Playground;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -7,11 +5,6 @@ using Microsoft.IdentityModel.Tokens;
 using SportNiteServer.Data;
 using SportNiteServer.Database;
 using SportNiteServer.Services;
-
-FirebaseApp.Create(new AppOptions
-{
-    Credential = GoogleCredential.GetApplicationDefault(),
-});
 
 var builder = WebApplication.CreateBuilder(args);
 

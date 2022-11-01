@@ -1,4 +1,3 @@
-using FirebaseAdmin.Auth;
 using Microsoft.EntityFrameworkCore;
 using SportNiteServer.Database;
 using SportNiteServer.Dto;
