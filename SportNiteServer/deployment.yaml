@@ -5,7 +5,7 @@ metadata:
   labels:
     app: sportnite
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: sportnite
@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: api
-          image: sportnite:1.14.2
+          image: ghcr.io/sportnite/sportniteserver:vc141b1e091d9b30478deb7e54346b152bf01ae7b
           ports:
             - containerPort: 80
 ---

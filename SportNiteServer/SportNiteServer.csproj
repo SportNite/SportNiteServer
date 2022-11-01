@@ -8,7 +8,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="FirebaseAdmin" Version="2.3.0" />
         <PackageReference Include="GraphQL.Server.Ui.Voyager" Version="7.1.1" />
         <PackageReference Include="HotChocolate.AspNetCore" Version="12.15.0" />
         <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="12.15.0" />
