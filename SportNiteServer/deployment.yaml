@@ -16,9 +16,15 @@ spec:
     spec:
       containers:
         - name: api
-          image: ghcr.io/sportnite/sportniteserver:vc141b1e091d9b30478deb7e54346b152bf01ae7b
+          image: ghcr.io/sportnite/sportniteserver:vae8c899928d9bd9e15e17b7f8796d284d051afb3
           ports:
             - containerPort: 80
+          env:
+            - name: MYSQL_CONNECTION
+              valueFrom:
+                secretKeyRef:
+                  name: sportnite-secret
+                  key: mysql_connection
 ---
 apiVersion: v1
 kind: Service
@@ -39,17 +45,15 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: sportnite
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-  - host: projektinzynieria.bieszczadywysokie.pl
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: sportnite
-            port:
-              number: 80
+    - host: projektinzynieria.bieszczadywysokie.pl
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: sportnite
+                port:
+                  number: 80

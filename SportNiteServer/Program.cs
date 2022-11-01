@@ -1,6 +1,7 @@
 using HotChocolate.AspNetCore;
 using HotChocolate.AspNetCore.Playground;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SportNiteServer.Data;
 using SportNiteServer.Database;
@@ -61,5 +62,13 @@ app.MapControllers();
 app.MapGraphQL();
 app.MapGraphQLVoyager();
 app.UsePlayground(new PlaygroundOptions { QueryPath = "/graphql", Path = "/playground" });
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<DatabaseContext>();
+    if (context.Database.GetPendingMigrations().Any())
+        context.Database.Migrate();
+}
 
 app.Run();
