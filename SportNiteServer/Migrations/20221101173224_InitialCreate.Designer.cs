@@ -11,8 +11,8 @@ using SportNiteServer.Database;
 namespace SportNiteServer.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20221101172741_GuidMigrate")]
-    partial class GuidMigrate
+    [Migration("20221101173224_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

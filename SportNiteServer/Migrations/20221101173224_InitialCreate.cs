@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using MySql.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
@@ -14,8 +13,7 @@ namespace SportNiteServer.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<Guid>(type: "char(36)", nullable: false),
                     FirebaseUserId = table.Column<string>(type: "longtext", nullable: false),
                     Name = table.Column<string>(type: "longtext", nullable: false),
                     BirthDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
@@ -33,9 +31,8 @@ namespace SportNiteServer.Migrations
                 name: "Offers",
                 columns: table => new
                 {
-                    OfferId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    UserId = table.Column<int>(type: "int", nullable: false),
+                    OfferId = table.Column<Guid>(type: "char(36)", nullable: false),
+                    UserId = table.Column<Guid>(type: "char(36)", nullable: false),
                     Description = table.Column<string>(type: "longtext", nullable: false),
                     DateTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Latitude = table.Column<double>(type: "double", nullable: false),
@@ -58,10 +55,9 @@ namespace SportNiteServer.Migrations
                 name: "Responses",
                 columns: table => new
                 {
-                    ResponseId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    OfferId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
+                    ResponseId = table.Column<Guid>(type: "char(36)", nullable: false),
+                    OfferId = table.Column<Guid>(type: "char(36)", nullable: false),
+                    UserId = table.Column<Guid>(type: "char(36)", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "longtext", nullable: false)
                 },
