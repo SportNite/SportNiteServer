@@ -75,7 +75,7 @@ jobs:
           context: .
           file: SportNiteServer/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          tags: docker pull ghcr.io/sportnite/sportniteserver:v${{ github.sha }}
+          tags: ghcr.io/sportnite/sportniteserver:v${{ github.sha }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
