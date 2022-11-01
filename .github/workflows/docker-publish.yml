@@ -81,7 +81,7 @@ jobs:
           cache-to: type=gha,mode=max
           
       - uses: actions-hub/kubectl@master
-        if: github.ref == 'refs/heads/main'
+        #if: github.ref == 'refs/heads/master'
         name: Deploy to cluster
         env:
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
