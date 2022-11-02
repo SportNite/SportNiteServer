@@ -16,7 +16,7 @@ public class ResponseService
 
     public async Task<Response?> CreateResponse(User user, CreateResponseInput input)
     {
-        var responses =await  _databaseContext.Responses.Where(x => x.OfferId == input.OfferId).ToListAsync();
+        var responses = await _databaseContext.Responses.Where(x => x.OfferId == input.OfferId).ToListAsync();
         if (responses.Any(x => x.Status == Response.ResponseStatus.Approved)) return null;
         var response = new Response()
         {
@@ -33,9 +33,14 @@ public class ResponseService
 
     public async Task<IEnumerable<Response>> GetMyResponses(User user)
     {
-        return _databaseContext.Responses.Where(x => x.UserId == user.UserId)
+        return await _databaseContext.Responses.Where(x => x.UserId == user.UserId)
             .Include(x => x.Offer)
-            .Include(x => x.User);
+            .Include(x => x.User)
+            .SelectAsync(async x =>
+            {
+                x.Offer = await OfferService.InjectWeather(x.Offer);
+                return x;
+            });
     }
 
     public async Task<Response> DeleteResponse(User user, Guid id)

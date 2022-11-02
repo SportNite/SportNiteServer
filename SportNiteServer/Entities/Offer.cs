@@ -1,11 +1,11 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SportNiteServer.Entities;
 
 public class Offer
 {
-    [Key]
-    public Guid OfferId { get; set; }
+    [Key] public Guid OfferId { get; set; }
     public Guid UserId { get; set; }
     public string Description { get; set; }
     public DateTime DateTime { get; set; }
@@ -15,6 +15,8 @@ public class Offer
     public bool IsAvailable { get; set; } = true;
 
     public List<Response> Responses { get; set; }
+
+    [NotMapped] public Weather Weather { get; set; }
 
     public enum SportType
     {
