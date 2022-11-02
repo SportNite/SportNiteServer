@@ -64,7 +64,11 @@ public class AuthService
         {
             UserId = user.UserId,
             Sport = input.Sport,
-            Level = input.Level
+            Level = input.Level,
+            Years = input.Years,
+            Weight = input.Weight,
+            Height = input.Height,
+            Nrtp = input.Nrtp
         };
         if (input.SkillId != null) skill.SkillId = input.SkillId.Value;
         await _databaseContext.Skills.AddAsync(skill);
