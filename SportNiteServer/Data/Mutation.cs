@@ -26,4 +26,14 @@ public class Mutation
     {
         return await offerService.DeleteOffer(await authService.GetUser(Utils.GetFirebaseUserId(claimsPrincipal)), id);
     }
+
+    public async Task<Response> CreateResponse(CreateResponseInput input, ResponseService responseService,
+        AuthService authService, ClaimsPrincipal claimsPrincipal)
+    {
+        return await responseService.CreateResponse(await authService.GetUser(Utils.GetFirebaseUserId(claimsPrincipal)),
+            input);
+    }
+    
+    
+    
 }

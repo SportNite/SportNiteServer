@@ -28,6 +28,7 @@ public class OfferService
             Sport = input.Sport,
             IsAvailable = true,
         };
+        if (input.OfferId != null) offer.OfferId = input.OfferId.Value;
         await _databaseContext.Offers.AddAsync(offer);
         await _databaseContext.SaveChangesAsync();
         return offer;
@@ -43,6 +44,6 @@ public class OfferService
 
     public async Task<IEnumerable<Offer>> GetMyOffers(User user)
     {
-        return _databaseContext.Offers.Where(x => x.UserId == user.UserId);
+        return _databaseContext.Offers.Where(x => x.UserId == user.UserId).Include(x => x.Responses);
     }
 }

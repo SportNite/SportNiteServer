@@ -19,6 +19,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddTransient<AuthService>();
 builder.Services.AddTransient<OfferService>();
+builder.Services.AddTransient<ResponseService>();
 
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -41,6 +42,7 @@ builder.Services
     .RegisterDbContext<DatabaseContext>()
     .RegisterService<AuthService>()
     .RegisterService<OfferService>()
+    .RegisterService<ResponseService>()
     .AddQueryType<Query>()
     .AddMutationType<Mutation>();
 

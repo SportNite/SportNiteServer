@@ -9,6 +9,7 @@ public class Response
     public Guid UserId { get; set; }
     public ResponseStatus Status { get; set; }
     public string Description { get; set; }
+    public Offer Offer { get; set; }
 
 
     public enum ResponseStatus
