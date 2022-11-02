@@ -54,4 +54,14 @@ public class Mutation
         return await responseService.RejectResponse(await authService.GetUser(Utils.GetFirebaseUserId(claimsPrincipal)),
             id);
     }
+
+    public async Task<Skill> SetSkill(SetSkillInput input, AuthService authService, ClaimsPrincipal claimsPrincipal)
+    {
+        return await authService.SetSkill(await authService.GetUser(Utils.GetFirebaseUserId(claimsPrincipal)), input);
+    }
+
+    public async Task<Skill> DeleteSkill(Offer.SportType sportType, AuthService authService, ClaimsPrincipal claimsPrincipal)
+    {
+        return await authService.DeleteSkill(await authService.GetUser(Utils.GetFirebaseUserId(claimsPrincipal)), sportType);
+    }
 }
