@@ -20,4 +20,10 @@ public class Mutation
         return await offerService.CreateOffer(await authService.GetUser(Utils.GetFirebaseUserId(claimsPrincipal)),
             input);
     }
+
+    public async Task<Offer> DeleteOffer(Guid id, OfferService offerService, AuthService authService,
+        ClaimsPrincipal claimsPrincipal)
+    {
+        return await offerService.DeleteOffer(await authService.GetUser(Utils.GetFirebaseUserId(claimsPrincipal)), id);
+    }
 }

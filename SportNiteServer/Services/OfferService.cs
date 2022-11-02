@@ -33,6 +33,14 @@ public class OfferService
         return offer;
     }
 
+    public async Task<Offer> DeleteOffer(User user, Guid id)
+    {
+        var offer = await _databaseContext.Offers.Where(x => x.UserId == user.UserId && x.OfferId == id).FirstAsync();
+        _databaseContext.Offers.Remove(offer);
+        await _databaseContext.SaveChangesAsync();
+        return offer;
+    }
+
     public async Task<IEnumerable<Offer>> GetMyOffers(User user)
     {
         return _databaseContext.Offers.Where(x => x.UserId == user.UserId);
