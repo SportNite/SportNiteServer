@@ -14,8 +14,10 @@ public class ResponseService
         _databaseContext = databaseContext;
     }
 
-    public async Task<Response> CreateResponse(User user, CreateResponseInput input)
+    public async Task<Response?> CreateResponse(User user, CreateResponseInput input)
     {
+        var responses =await  _databaseContext.Responses.Where(x => x.OfferId == input.OfferId).ToListAsync();
+        if (responses.Any(x => x.Status == Response.ResponseStatus.Approved)) return null;
         var response = new Response()
         {
             OfferId = input.OfferId,
@@ -41,6 +43,42 @@ public class ResponseService
         var response = await _databaseContext.Responses.Where(x => x.UserId == user.UserId && x.ResponseId == id)
             .FirstAsync();
         _databaseContext.Responses.Remove(response);
+        await _databaseContext.SaveChangesAsync();
+        return response;
+    }
+
+    public async Task<Response?> RejectResponse(User user, Guid id)
+    {
+        var response = await _databaseContext.Responses
+            .Where(x => x.ResponseId == id)
+            .Include(x => x.Offer)
+            .Include(x => x.User)
+            .FirstAsync();
+        if (response.Offer.UserId != user.UserId)
+            return null;
+        if (response.Status != Response.ResponseStatus.Pending)
+            return null;
+        response.Status = Response.ResponseStatus.Rejected;
+        await _databaseContext.SaveChangesAsync();
+        return response;
+    }
+
+    public async Task<Response?> AcceptResponse(User user, Guid id)
+    {
+        var response = await _databaseContext.Responses
+            .Where(x => x.ResponseId == id)
+            .Include(x => x.Offer)
+            .Include(x => x.User)
+            .FirstAsync();
+        if (response.Offer.UserId != user.UserId)
+            return null;
+        if (response.Status != Response.ResponseStatus.Pending)
+            return null;
+        response.Status = Response.ResponseStatus.Approved;
+        await _databaseContext.SaveChangesAsync();
+        var responses = await _databaseContext.Responses.Where(x => x.OfferId == response.OfferId).ToListAsync();
+        foreach (var item in responses.Where(item => item.ResponseId != response.ResponseId))
+            item.Status = Response.ResponseStatus.Canceled;
         await _databaseContext.SaveChangesAsync();
         return response;
     }

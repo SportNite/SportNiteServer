@@ -27,7 +27,7 @@ public class Mutation
         return await offerService.DeleteOffer(await authService.GetUser(Utils.GetFirebaseUserId(claimsPrincipal)), id);
     }
 
-    public async Task<Response> CreateResponse(CreateResponseInput input, ResponseService responseService,
+    public async Task<Response?> CreateResponse(CreateResponseInput input, ResponseService responseService,
         AuthService authService, ClaimsPrincipal claimsPrincipal)
     {
         return await responseService.CreateResponse(await authService.GetUser(Utils.GetFirebaseUserId(claimsPrincipal)),
@@ -38,6 +38,20 @@ public class Mutation
         ClaimsPrincipal claimsPrincipal)
     {
         return await responseService.DeleteResponse(await authService.GetUser(Utils.GetFirebaseUserId(claimsPrincipal)),
+            id);
+    }
+
+    public async Task<Response?> AcceptResponse(Guid id, ResponseService responseService, AuthService authService,
+        ClaimsPrincipal claimsPrincipal)
+    {
+        return await responseService.AcceptResponse(await authService.GetUser(Utils.GetFirebaseUserId(claimsPrincipal)),
+            id);
+    }
+
+    public async Task<Response?> RejectResponse(Guid id, ResponseService responseService, AuthService authService,
+        ClaimsPrincipal claimsPrincipal)
+    {
+        return await responseService.RejectResponse(await authService.GetUser(Utils.GetFirebaseUserId(claimsPrincipal)),
             id);
     }
 }
