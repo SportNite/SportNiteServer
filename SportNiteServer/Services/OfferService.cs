@@ -44,6 +44,8 @@ public class OfferService
 
     public async Task<IEnumerable<Offer>> GetMyOffers(User user)
     {
-        return _databaseContext.Offers.Where(x => x.UserId == user.UserId).Include(x => x.Responses);
+        return _databaseContext.Offers.Where(x => x.UserId == user.UserId)
+            .Include(x => x.Responses)
+            .ThenInclude(x => x.User);
     }
 }

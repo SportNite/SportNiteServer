@@ -10,6 +10,7 @@ public class Response
     public ResponseStatus Status { get; set; }
     public string Description { get; set; }
     public Offer Offer { get; set; }
+    public User User { get; set; }
 
 
     public enum ResponseStatus

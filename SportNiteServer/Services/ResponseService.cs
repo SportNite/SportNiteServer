@@ -31,6 +31,17 @@ public class ResponseService
 
     public async Task<IEnumerable<Response>> GetMyResponses(User user)
     {
-        return _databaseContext.Responses.Where(x => x.UserId == user.UserId).Include(x => x.Offer);
+        return _databaseContext.Responses.Where(x => x.UserId == user.UserId)
+            .Include(x => x.Offer)
+            .Include(x => x.User);
+    }
+
+    public async Task<Response> DeleteResponse(User user, Guid id)
+    {
+        var response = await _databaseContext.Responses.Where(x => x.UserId == user.UserId && x.ResponseId == id)
+            .FirstAsync();
+        _databaseContext.Responses.Remove(response);
+        await _databaseContext.SaveChangesAsync();
+        return response;
     }
 }

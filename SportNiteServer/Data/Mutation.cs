@@ -33,7 +33,11 @@ public class Mutation
         return await responseService.CreateResponse(await authService.GetUser(Utils.GetFirebaseUserId(claimsPrincipal)),
             input);
     }
-    
-    
-    
+
+    public async Task<Response> DeleteResponse(Guid id, ResponseService responseService, AuthService authService,
+        ClaimsPrincipal claimsPrincipal)
+    {
+        return await responseService.DeleteResponse(await authService.GetUser(Utils.GetFirebaseUserId(claimsPrincipal)),
+            id);
+    }
 }
