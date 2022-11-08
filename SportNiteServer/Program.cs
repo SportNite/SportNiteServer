@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddDbContext<DatabaseContext>();
+builder.Services.AddDbContext<DatabaseContext>(ServiceLifetime.Transient);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -40,6 +40,7 @@ builder.Services
     .AddGraphQLServer()
     .AddAuthorization()
     .AddSorting()
+    .AddFiltering()
     .RegisterDbContext<DatabaseContext>()
     .RegisterService<AuthService>()
     .RegisterService<OfferService>()

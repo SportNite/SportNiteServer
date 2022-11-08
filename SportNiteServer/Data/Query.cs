@@ -36,4 +36,13 @@ public class Query
     {
         return await weatherService.GetForecast(startDay, latitude, longitude);
     }
+
+    
+    [UsePaging]
+    [UseFiltering]
+    [UseSorting]
+    public async Task<IEnumerable<User?>> GetUsers(AuthService authService)
+    {
+        return await authService.GetUsers();
+    }
 }

@@ -85,4 +85,9 @@ public class AuthService
         await _databaseContext.SaveChangesAsync();
         return skill;
     }
+
+    public async Task<IEnumerable<User?>> GetUsers()
+    {
+        return _databaseContext.Users.Include(x => x.Skills);
+    }
 }
