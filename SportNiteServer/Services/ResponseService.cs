@@ -8,10 +8,12 @@ namespace SportNiteServer.Services;
 public class ResponseService
 {
     private readonly DatabaseContext _databaseContext;
+    private readonly WeatherService _weatherService;
 
-    public ResponseService(DatabaseContext databaseContext)
+    public ResponseService(DatabaseContext databaseContext, WeatherService weatherService)
     {
         _databaseContext = databaseContext;
+        _weatherService = weatherService;
     }
 
     public async Task<Response?> CreateResponse(User user, CreateResponseInput input)
@@ -38,7 +40,8 @@ public class ResponseService
             .Include(x => x.User)
             .SelectAsync(async x =>
             {
-                x.Offer = await OfferService.InjectWeather(x.Offer);
+                var weather = await _weatherService.GetWeatherForOffer(x.Offer);
+                if (weather != null) x.Offer.Weather = weather;
                 return x;
             });
     }

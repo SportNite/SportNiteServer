@@ -30,4 +30,10 @@ public class Query
         return await responseService.GetMyResponses(
             await authService.GetUser(Utils.GetFirebaseUserId(claimsPrincipal)));
     }
+
+    public async Task<List<Weather>> GetForecast(DateTime startDay, double latitude, double longitude,
+        WeatherService weatherService)
+    {
+        return await weatherService.GetForecast(startDay, latitude, longitude);
+    }
 }

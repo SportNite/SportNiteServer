@@ -20,6 +20,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<AuthService>();
 builder.Services.AddTransient<OfferService>();
 builder.Services.AddTransient<ResponseService>();
+builder.Services.AddTransient<WeatherService>();
 
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -43,6 +44,7 @@ builder.Services
     .RegisterService<AuthService>()
     .RegisterService<OfferService>()
     .RegisterService<ResponseService>()
+    .RegisterService<WeatherService>()
     .AddQueryType<Query>()
     .AddMutationType<Mutation>();
 

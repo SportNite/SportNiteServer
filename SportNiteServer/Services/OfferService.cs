@@ -11,11 +11,13 @@ public class OfferService
 {
     private readonly DatabaseContext _databaseContext;
     private readonly AuthService _authService;
+    private readonly WeatherService _weatherService;
 
-    public OfferService(DatabaseContext databaseContext, AuthService authService)
+    public OfferService(DatabaseContext databaseContext, AuthService authService, WeatherService weatherService)
     {
         _databaseContext = databaseContext;
         _authService = authService;
+        _weatherService = weatherService;
     }
 
     public async Task<Offer> CreateOffer(User user, CreateOfferInput input)
@@ -52,22 +54,10 @@ public class OfferService
             .SelectAsync(InjectWeather);
     }
 
-    public static async Task<Offer> InjectWeather(Offer offer)
+    private async Task<Offer> InjectWeather(Offer offer)
     {
-        var response = await new HttpClient().GetAsync(
-            "https://api.open-meteo.com/v1/forecast?latitude=" + offer.Latitude + "&longitude=" + offer.Longitude +
-            "&hourly=temperature_2m,precipitation,windspeed_10m,rain&start_date=" +
-            offer.DateTime.ToString("yyyy-MM-dd") + "&end_date=" + offer.DateTime.ToString("yyyy-MM-dd"));
-        var responseString = await response.Content.ReadAsStringAsync();
-        dynamic? data = JsonConvert.DeserializeObject(responseString);
-        if (data == null) return offer;
-        offer.Weather = new Weather
-        {
-            DateTime = offer.DateTime,
-            Temperature = Utils.Average(data.hourly.temperature_2m.ToObject<List<double>>()),
-            WindSpeed = Utils.Average(data.hourly.windspeed_10m.ToObject<List<double>>()),
-            Precipitation = Utils.Average(data.hourly.precipitation.ToObject<List<double>>()),
-        };
+        var weather = await _weatherService.GetWeatherForOffer(offer);
+        if (weather != null) offer.Weather = weather;
         return offer;
     }
 }
