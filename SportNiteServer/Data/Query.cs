@@ -15,6 +15,7 @@ public class Query
     }
 
     [UsePaging]
+    [UseFiltering]
     [UseSorting]
     public async Task<IEnumerable<Offer>> MyOffers(ClaimsPrincipal claimsPrincipal, AuthService authService,
         OfferService offerService)
@@ -23,6 +24,7 @@ public class Query
     }
 
     [UsePaging]
+    [UseFiltering]
     [UseSorting]
     public async Task<IEnumerable<Response>> GetMyResponses(ClaimsPrincipal claimsPrincipal,
         ResponseService responseService, AuthService authService)
