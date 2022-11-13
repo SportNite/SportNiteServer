@@ -41,6 +41,9 @@ namespace SportNiteServer.Migrations
                     b.Property<double>("Longitude")
                         .HasColumnType("double");
 
+                    b.Property<long>("PlaceId")
+                        .HasColumnType("bigint");
+
                     b.Property<int>("Sport")
                         .HasColumnType("int");
 

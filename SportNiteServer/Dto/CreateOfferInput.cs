@@ -10,4 +10,5 @@ public class CreateOfferInput
     public double Latitude { get; set; }
     public double Longitude { get; set; }
     public Offer.SportType Sport { get; set; }
+    public long PlaceId { get; set; }
 }

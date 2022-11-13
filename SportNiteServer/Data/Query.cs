@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using SportNiteServer.Database;
+using SportNiteServer.Dto;
 using SportNiteServer.Entities;
 using SportNiteServer.Services;
 
@@ -39,12 +40,26 @@ public class Query
         return await weatherService.GetForecast(startDay, latitude, longitude);
     }
 
-    
+
     [UsePaging]
     [UseFiltering]
     [UseSorting]
     public async Task<IEnumerable<User?>> GetUsers(AuthService authService)
     {
         return await authService.GetUsers();
+    }
+
+
+    [UsePaging]
+    [UseFiltering]
+    [UseSorting]
+    public async Task<IEnumerable<Offer?>> GetOffers(OfferService offerService)
+    {
+        return await offerService.GetOffers();
+    }
+
+    public async Task<List<Place>> GetPlaces(PlaceQueryFilter filter, PlaceService placeService)
+    {
+        return await placeService.GetPlaces(filter);
     }
 }

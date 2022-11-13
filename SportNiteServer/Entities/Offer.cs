@@ -17,6 +17,8 @@ public class Offer
     public List<Response> Responses { get; set; }
 
     [NotMapped] public Weather Weather { get; set; }
+    public long PlaceId { get; set; }
+    [NotMapped] public Place Place { get; set; }
 
     public enum SportType
     {

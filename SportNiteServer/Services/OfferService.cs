@@ -12,12 +12,15 @@ public class OfferService
     private readonly DatabaseContext _databaseContext;
     private readonly AuthService _authService;
     private readonly WeatherService _weatherService;
+    private readonly PlaceService _placeService;
 
-    public OfferService(DatabaseContext databaseContext, AuthService authService, WeatherService weatherService)
+    public OfferService(DatabaseContext databaseContext, AuthService authService, WeatherService weatherService,
+        PlaceService placeService)
     {
         _databaseContext = databaseContext;
         _authService = authService;
         _weatherService = weatherService;
+        _placeService = placeService;
     }
 
     public async Task<Offer> CreateOffer(User user, CreateOfferInput input)
@@ -31,6 +34,7 @@ public class OfferService
             Longitude = input.Longitude,
             Sport = input.Sport,
             IsAvailable = true,
+            PlaceId = input.PlaceId
         };
         if (input.OfferId != null) offer.OfferId = input.OfferId.Value;
         await _databaseContext.Offers.AddAsync(offer);
@@ -51,6 +55,16 @@ public class OfferService
         return await _databaseContext.Offers.Where(x => x.UserId == user.UserId)
             .Include(x => x.Responses)
             .ThenInclude(x => x.User)
+            .Select(InjectPlace)
+            .SelectAsync(InjectWeather);
+    }
+
+    public async Task<IEnumerable<Offer>> GetOffers()
+    {
+        return await _databaseContext.Offers
+            .Include(x => x.Responses)
+            .ThenInclude(x => x.User)
+            .Select(InjectPlace)
             .SelectAsync(InjectWeather);
     }
 
@@ -58,6 +72,12 @@ public class OfferService
     {
         var weather = await _weatherService.GetWeatherForOffer(offer);
         if (weather != null) offer.Weather = weather;
+        return offer;
+    }
+
+    private Offer InjectPlace(Offer offer)
+    {
+        offer.Place = _placeService.FindPlace(offer.PlaceId);
         return offer;
     }
 }
