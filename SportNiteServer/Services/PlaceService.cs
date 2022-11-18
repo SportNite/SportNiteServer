@@ -12,7 +12,7 @@ public class PlaceService
     public PlaceService()
     {
         var content =
-            File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "assets/sport_objects_krakow.geojson"));
+            File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "Assets/sport_objects_krakow.geojson"));
         var overpass = JsonSerializer.Deserialize<OverpassResponse>(content);
         foreach (var overpassElement in overpass.elements.Where(x => x.type == "node"))
         {
