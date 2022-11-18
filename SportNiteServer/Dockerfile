@@ -17,4 +17,5 @@ RUN dotnet publish "SportNiteServer.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+COPY Assets /app/Assets
 ENTRYPOINT ["dotnet", "SportNiteServer.dll"]

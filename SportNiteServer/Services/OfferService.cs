@@ -77,7 +77,8 @@ public class OfferService
 
     private Offer InjectPlace(Offer offer)
     {
-        offer.Place = _placeService.FindPlace(offer.PlaceId);
+        if (offer.PlaceId != 0)
+            offer.Place = _placeService.FindPlace(offer.PlaceId);
         return offer;
     }
 }
