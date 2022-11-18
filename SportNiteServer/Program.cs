@@ -9,6 +9,17 @@ using SportNiteServer.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.WebHost.UseSentry(o =>
+{
+    o.Dsn = "https://13bfcb853a83456492fdfd3c4a889596@o337011.ingest.sentry.io/4504181875933184";
+    // When configuring for the first time, to see what the SDK is doing:
+    o.Debug = true;
+    // Set TracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
+    // We recommend adjusting this value in production.
+    o.TracesSampleRate = 1.0;
+});
+
+
 // Add services to the container.
 
 builder.Services.AddDbContext<DatabaseContext>(ServiceLifetime.Transient);
@@ -61,6 +72,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseSentryTracing();
 
 app.UseAuthorization();
 app.UseAuthentication();
