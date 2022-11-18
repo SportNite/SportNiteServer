@@ -60,7 +60,8 @@ builder.Services
     .RegisterService<WeatherService>()
     .RegisterService<PlaceService>()
     .AddQueryType<Query>()
-    .AddMutationType<Mutation>();
+    .AddMutationType<Mutation>()
+    .ModifyRequestOptions(opt => opt.IncludeExceptionDetails = true);
 
 var app = builder.Build();
 
