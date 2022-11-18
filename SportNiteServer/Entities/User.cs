@@ -7,7 +7,7 @@ public class User
 {
     [Key] public Guid UserId { get; set; }
     public string FirebaseUserId { get; set; }
-    public string Avatar { get; set; }
+    public string Avatar { get; set; } = "";
     public string Name { get; set; } = "";
     public DateTime BirthDate { get; set; }
     public int Sex { get; set; }
