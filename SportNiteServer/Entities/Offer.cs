@@ -59,4 +59,7 @@ public class Offer
         Workout,
         Tennis
     }
+
+    public string City { get; set; }
+    public string Street { get; set; }
 }

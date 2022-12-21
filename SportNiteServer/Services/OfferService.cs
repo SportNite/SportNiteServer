@@ -32,6 +32,8 @@ public class OfferService
             DateTime = input.DateTime,
             Latitude = input.Latitude,
             Longitude = input.Longitude,
+            City = input.City,
+            Street = input.Street,
             Sport = input.Sport,
             IsAvailable = true,
             PlaceId = input.PlaceId
