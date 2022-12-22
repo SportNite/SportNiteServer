@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using SportNiteServer.Services;
 
 namespace SportNiteServer.Entities;
 
@@ -62,4 +63,9 @@ public class Offer
 
     public string? City { get; set; }
     public string? Street { get; set; }
+
+    public async Task<User?> User([Service] UserService userService)
+    {
+        return await userService.GetUserById(UserId);
+    }
 }

@@ -33,6 +33,7 @@ builder.Services.AddTransient<OfferService>();
 builder.Services.AddTransient<ResponseService>();
 builder.Services.AddTransient<WeatherService>();
 builder.Services.AddSingleton<PlaceService>();
+builder.Services.AddSingleton<UserService>();
 
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -59,6 +60,7 @@ builder.Services
     .RegisterService<ResponseService>()
     .RegisterService<WeatherService>()
     .RegisterService<PlaceService>()
+    .RegisterService<UserService>()
     .AddQueryType<Query>()
     .AddMutationType<Mutation>()
     .ModifyRequestOptions(opt => opt.IncludeExceptionDetails = true);
