@@ -20,6 +20,7 @@ public class ResponseService
     {
         var responses = await _databaseContext.Responses.Where(x => x.OfferId == input.OfferId).ToListAsync();
         if (responses.Any(x => x.Status == Response.ResponseStatus.Approved)) return null;
+        if (responses.Any(x => x.UserId == user.UserId && x.Status == Response.ResponseStatus.Pending)) return null;
         var response = new Response()
         {
             OfferId = input.OfferId,
