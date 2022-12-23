@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SportNiteServer.Data;
 using SportNiteServer.Database;
+using SportNiteServer.Exceptions;
 using SportNiteServer.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -63,6 +64,7 @@ builder.Services
     .RegisterService<UserService>()
     .AddQueryType<Query>()
     .AddMutationType<Mutation>()
+    .AddErrorFilter<GraphQlErrorFilter>()
     .ModifyRequestOptions(opt => opt.IncludeExceptionDetails = true);
 
 var app = builder.Build();

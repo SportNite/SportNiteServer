@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using SportNiteServer.Database;
 using SportNiteServer.Dto;
 using SportNiteServer.Entities;
+using SportNiteServer.Exceptions;
 
 namespace SportNiteServer.Services;
 
@@ -16,7 +17,7 @@ public class AuthService
 
     public async Task<User> GetUser(string? firebaseUserId)
     {
-        if (firebaseUserId == null) return null;
+        if (firebaseUserId == null) throw new ForbiddenException();
         if (await _databaseContext.Users.AnyAsync(x => x.FirebaseUserId == firebaseUserId))
         {
             return await _databaseContext.Users
