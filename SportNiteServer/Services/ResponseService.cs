@@ -88,6 +88,13 @@ public class ResponseService
         foreach (var item in responses.Where(item => item.ResponseId != response.ResponseId))
             item.Status = Response.ResponseStatus.Canceled;
         await _databaseContext.SaveChangesAsync();
+
+        var offer = await _databaseContext.Offers.Where(x => x.OfferId == response.OfferId)
+            .FirstAsync();
+        offer.IsAvailable = false;
+        _databaseContext.Update(offer);
+        await _databaseContext.SaveChangesAsync();
+
         return response;
     }
 }
