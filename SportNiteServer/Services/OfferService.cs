@@ -1,3 +1,4 @@
+using System.Collections;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using SportNiteServer.Database;
@@ -82,5 +83,20 @@ public class OfferService
         if (offer.PlaceId != 0)
             offer.Place = _placeService.FindPlace(offer.PlaceId);
         return offer;
+    }
+
+    public async Task<IEnumerable<Offer>> GetIncomingOffers(User user)
+    {
+        var responsesIds =
+            (await _databaseContext.Responses
+                .Where(x => x.UserId == user.UserId && x.Status == Response.ResponseStatus.Approved).ToListAsync())
+            .Select(x => x.OfferId);
+        return await _databaseContext.Offers.Where(x =>
+                (x.UserId == user.UserId || responsesIds.Contains(x.OfferId)) && x.DateTime > DateTime.Now &&
+                !x.IsAvailable)
+            .Include(x => x.Responses)
+            .ThenInclude(x => x.User)
+            .Select(InjectPlace)
+            .SelectAsync(InjectWeather);
     }
 }

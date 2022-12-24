@@ -62,4 +62,14 @@ public class Query
     {
         return await placeService.GetPlaces(filter);
     }
+
+    
+    [UseFiltering]
+    [UseSorting]
+    public async Task<IEnumerable<Offer>> IncomingOffers(ClaimsPrincipal claimsPrincipal, AuthService authService,
+        OfferService offerService)
+    {
+        return await offerService.GetIncomingOffers(
+            await authService.GetUser(Utils.GetFirebaseUserId(claimsPrincipal)));
+    }
 }
