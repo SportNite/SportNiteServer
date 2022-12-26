@@ -97,6 +97,11 @@ public class OfferService
             .Include(x => x.Responses)
             .ThenInclude(x => x.User)
             .Select(InjectPlace)
+            .Select(x =>
+            {
+                x.Responses = x.Responses.Where(x => x.Status == Response.ResponseStatus.Approved).ToList();
+                return x;
+            })
             .SelectAsync(InjectWeather);
     }
 }
