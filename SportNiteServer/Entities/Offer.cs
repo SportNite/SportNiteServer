@@ -61,11 +61,11 @@ public class Offer
         Tennis
     }
 
-    public string? City { get; set; }
-    public string? Street { get; set; }
+    public string City { get; set; }
+    public string Street { get; set; }
 
-    public async Task<User?> User([Service] UserService userService)
+    public async Task<User> User([Service] UserService userService)
     {
-        return await userService.GetUserById(UserId);
+        return await userService.GetUserById(UserId) ?? throw new Exception("user_not_found");
     }
 }
