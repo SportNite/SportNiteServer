@@ -1,4 +1,6 @@
 using System.Text.Json;
+using Microsoft.EntityFrameworkCore;
+using SportNiteServer.Database;
 using SportNiteServer.Dto;
 using SportNiteServer.Entities;
 using Path = System.IO.Path;
@@ -9,8 +11,11 @@ public class PlaceService
 {
     private List<Place> _places = new();
 
-    public PlaceService()
+    private readonly DatabaseContext _databaseContext;
+
+    public PlaceService(DatabaseContext databaseContext)
     {
+        _databaseContext = databaseContext;
         var content =
             File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "Assets/sport_objects_krakow.geojson"));
         var overpass = JsonSerializer.Deserialize<OverpassResponse>(content);
@@ -29,17 +34,28 @@ public class PlaceService
             _places.Add(place);
         }
 
-        _places = _places.Where(x => x.Name is { Length: > 0 }).ToList();
+        _places = _places.Where(x => x.Name is {Length: > 0}).ToList();
         Console.WriteLine($"Loaded {_places.Count} places");
+
+        ImportPlaces();
     }
 
-    public async Task<List<Place>> GetPlaces(PlaceQueryFilter queryFilter)
+    public async Task ImportPlaces()
     {
-        return _places.Where(
-                x => DistanceTo(x.Latitude, x.Longitude, queryFilter.Latitude, queryFilter.Longitude) < queryFilter.Radius)
-            .Where(x => ((queryFilter.Sports ?? new List<string>()).Count <= 0 ||
-                         (queryFilter.Sports ?? new List<string>()).Contains(x.Sport)))
-            .ToList();
+        foreach (var place in _places)
+            if (!await _databaseContext.Places.AnyAsync(x => x.Id == place.Id))
+                _databaseContext.Places.Add(place);
+        await _databaseContext.SaveChangesAsync();
+    }
+
+    public async Task<IEnumerable<Place>> GetPlaces()
+    {
+        // return _places.Where(
+        //         x => DistanceTo(x.Latitude, x.Longitude, queryFilter.Latitude, queryFilter.Longitude) < queryFilter.Radius)
+        //     .Where(x => ((queryFilter.Sports ?? new List<string>()).Count <= 0 ||
+        //                  (queryFilter.Sports ?? new List<string>()).Contains(x.Sport)))
+        //     .ToList();
+        return _databaseContext.Places.Where(x => true);
     }
 
     public Place FindPlace(long id)

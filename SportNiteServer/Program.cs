@@ -85,7 +85,7 @@ app.UseAuthentication();
 app.MapControllers();
 app.MapGraphQL();
 app.MapGraphQLVoyager();
-app.UsePlayground(new PlaygroundOptions { QueryPath = "/graphql", Path = "/playground" });
+app.UsePlayground(new PlaygroundOptions {QueryPath = "/graphql", Path = "/playground"});
 
 using (var scope = app.Services.CreateScope())
 {
@@ -94,5 +94,8 @@ using (var scope = app.Services.CreateScope())
     if (context.Database.GetPendingMigrations().Any())
         context.Database.Migrate();
 }
+
+var placeService = app.Services.GetService<PlaceService>();
+placeService.ImportPlaces();
 
 app.Run();

@@ -9,6 +9,7 @@ public class DatabaseContext : DbContext
     public DbSet<Offer> Offers { get; set; }
     public DbSet<Response> Responses { get; set; }
     public DbSet<Skill> Skills { get; set; }
+    public DbSet<Place> Places { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
         optionsBuilder

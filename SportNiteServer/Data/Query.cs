@@ -58,12 +58,15 @@ public class Query
         return await offerService.GetOffers();
     }
 
-    public async Task<List<Place>> GetPlaces(PlaceQueryFilter filter, PlaceService placeService)
+    [UsePaging]
+    [UseFiltering]
+    [UseSorting]
+    public async Task<IEnumerable<Place>> GetPlaces(PlaceService placeService)
     {
-        return await placeService.GetPlaces(filter);
+        return await placeService.GetPlaces();
     }
 
-    
+
     [UseFiltering]
     [UseSorting]
     public async Task<IEnumerable<Offer>> IncomingOffers(ClaimsPrincipal claimsPrincipal, AuthService authService,
