@@ -58,7 +58,6 @@ public class Query
         return await offerService.GetOffers();
     }
     
-    [UsePaging]
     [UseFiltering]
     [UseSorting]
     public async Task<IEnumerable<Place>> GetPlaces(PlaceService placeService)
