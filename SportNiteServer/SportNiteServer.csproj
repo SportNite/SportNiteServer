@@ -14,6 +14,7 @@
         <PackageReference Include="HotChocolate.AspNetCore.Playground" Version="10.5.5" />
         <PackageReference Include="HotChocolate.Data" Version="12.15.0" />
         <PackageReference Include="HotChocolate.Data.EntityFramework" Version="12.15.0" />
+        <PackageReference Include="HotChocolate.Data.Spatial" Version="12.15.0" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.10" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.10">
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -21,6 +22,7 @@
         </PackageReference>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.10" />
         <PackageReference Include="MySql.EntityFrameworkCore" Version="6.0.7" />
+        <PackageReference Include="Pomelo.EntityFrameworkCore.MySql.NetTopologySuite" Version="6.0.2" />
         <PackageReference Include="Sentry.AspNetCore" Version="3.23.1" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     </ItemGroup>

@@ -2,8 +2,8 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using NetTopologySuite.Geometries;
 using SportNiteServer.Database;
 
 #nullable disable
@@ -11,9 +11,10 @@ using SportNiteServer.Database;
 namespace SportNiteServer.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20221230101759_PlacesDrop")]
+    partial class PlacesDrop
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,31 +65,6 @@ namespace SportNiteServer.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Offers");
-                });
-
-            modelBuilder.Entity("SportNiteServer.Entities.Place", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    b.Property<Guid>("AuthorId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Point>("Location")
-                        .IsRequired()
-                        .HasColumnType("point");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Sport")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Places");
                 });
 
             modelBuilder.Entity("SportNiteServer.Entities.Response", b =>

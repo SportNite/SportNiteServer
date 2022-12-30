@@ -57,7 +57,7 @@ public class Query
     {
         return await offerService.GetOffers();
     }
-
+    
     [UsePaging]
     [UseFiltering]
     [UseSorting]

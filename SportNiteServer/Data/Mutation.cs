@@ -64,4 +64,22 @@ public class Mutation
     {
         return await authService.DeleteSkill(await authService.GetUser(Utils.GetFirebaseUserId(claimsPrincipal)), sportType);
     }
+    
+    public async Task<Place> CreatePlace(CreatePlaceInput input, PlaceService placeService, AuthService authService,
+        ClaimsPrincipal claimsPrincipal)
+    {
+        return await placeService.CreatePlace(await authService.GetUser(Utils.GetFirebaseUserId(claimsPrincipal)),
+            input);
+    }
+    
+    public async Task<Place> DeletePlace(long id, PlaceService placeService, AuthService authService,
+        ClaimsPrincipal claimsPrincipal)
+    {
+        return await placeService.DeletePlace(await authService.GetUser(Utils.GetFirebaseUserId(claimsPrincipal)), id);
+    }
+
+    public async Task<int> ImportPlaces(PlaceService placeService)
+    {
+        return await placeService.ImportPlaces();
+    }
 }

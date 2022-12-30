@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SportNiteServer.Data;
 using SportNiteServer.Database;
+using SportNiteServer.Entities;
 using SportNiteServer.Exceptions;
 using SportNiteServer.Services;
 
@@ -52,9 +53,13 @@ builder.Services
     });
 builder.Services
     .AddGraphQLServer()
+    .AddType<PointSortType>()
+    .AddSpatialTypes()
     .AddAuthorization()
     .AddSorting()
     .AddFiltering()
+    .AddSpatialFiltering()
+    .AddSpatialProjections()
     .RegisterDbContext<DatabaseContext>()
     .RegisterService<AuthService>()
     .RegisterService<OfferService>()
@@ -94,8 +99,5 @@ using (var scope = app.Services.CreateScope())
     if (context.Database.GetPendingMigrations().Any())
         context.Database.Migrate();
 }
-
-var placeService = app.Services.GetService<PlaceService>();
-placeService.ImportPlaces();
 
 app.Run();

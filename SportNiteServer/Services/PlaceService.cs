@@ -1,8 +1,10 @@
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
+using NetTopologySuite.Geometries;
 using SportNiteServer.Database;
 using SportNiteServer.Dto;
 using SportNiteServer.Entities;
+using SportNiteServer.Exceptions;
 using Path = System.IO.Path;
 
 namespace SportNiteServer.Services;
@@ -24,8 +26,7 @@ public class PlaceService
             var place = new Place
             {
                 Id = overpassElement.id,
-                Latitude = overpassElement.lat,
-                Longitude = overpassElement.lon,
+                Location = new Point(overpassElement.lon, overpassElement.lat),
             };
             if (overpassElement.tags != null && overpassElement.tags.ContainsKey("name"))
                 place.Name = overpassElement.tags["name"];
@@ -36,25 +37,19 @@ public class PlaceService
 
         _places = _places.Where(x => x.Name is {Length: > 0}).ToList();
         Console.WriteLine($"Loaded {_places.Count} places");
-
-        ImportPlaces();
     }
 
-    public async Task ImportPlaces()
+    public async Task<int> ImportPlaces()
     {
         foreach (var place in _places)
             if (!await _databaseContext.Places.AnyAsync(x => x.Id == place.Id))
                 _databaseContext.Places.Add(place);
         await _databaseContext.SaveChangesAsync();
+        return _places.Count;
     }
 
     public async Task<IEnumerable<Place>> GetPlaces()
     {
-        // return _places.Where(
-        //         x => DistanceTo(x.Latitude, x.Longitude, queryFilter.Latitude, queryFilter.Longitude) < queryFilter.Radius)
-        //     .Where(x => ((queryFilter.Sports ?? new List<string>()).Count <= 0 ||
-        //                  (queryFilter.Sports ?? new List<string>()).Contains(x.Sport)))
-        //     .ToList();
         return _databaseContext.Places.Where(x => true);
     }
 
@@ -63,27 +58,29 @@ public class PlaceService
         return _places.First(x => x.Id == id);
     }
 
-    public static double DistanceTo(double lat1, double lon1, double lat2, double lon2, char unit = 'K')
+
+    public async Task<Place> CreatePlace(User user, CreatePlaceInput input)
     {
-        var rlat1 = Math.PI * lat1 / 180;
-        var rlat2 = Math.PI * lat2 / 180;
-        var theta = lon1 - lon2;
-        var rtheta = Math.PI * theta / 180;
-        var dist =
-            Math.Sin(rlat1) * Math.Sin(rlat2) + Math.Cos(rlat1) *
-            Math.Cos(rlat2) * Math.Cos(rtheta);
-        dist = Math.Acos(dist);
-        dist = dist * 180 / Math.PI;
-        dist = dist * 60 * 1.1515;
-        return unit switch
+        var place = new Place()
         {
-            'K' => //Kilometers -> default
-                dist * 1.609344,
-            'N' => //Nautical Miles 
-                dist * 0.8684,
-            'M' => //Miles
-                dist,
-            _ => dist
+            Id = input.Id,
+            Name = input.Name,
+            Sport = input.Sport,
+            Location = new Point(input.Longitude, input.Latitude),
+            AuthorId = user.UserId
         };
+        _databaseContext.Places.Add(place);
+        await _databaseContext.SaveChangesAsync();
+        return place;
+    }
+
+    public async Task<Place> DeletePlace(User user, long id)
+    {
+        var place = _databaseContext.Places.First(x => x.Id == id);
+        if (place.AuthorId != user.UserId)
+            throw new ForbiddenException();
+        _databaseContext.Places.Remove(place);
+        await _databaseContext.SaveChangesAsync();
+        return place;
     }
 }

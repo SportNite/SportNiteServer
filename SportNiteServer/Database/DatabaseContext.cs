@@ -13,8 +13,13 @@ public class DatabaseContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
         optionsBuilder
-            .UseMySQL(Environment.GetEnvironmentVariable("MYSQL_CONNECTION") ??
-                      "server=localhost;database=sportnite;user=root;password=12345678")
+            .UseMySql(Environment.GetEnvironmentVariable("MYSQL_CONNECTION") ??
+                      "server=localhost;database=sportnite;user=root;password=12345678",
+                ServerVersion.AutoDetect(
+                    Environment.GetEnvironmentVariable("MYSQL_CONNECTION") ??
+                    "server=localhost;database=sportnite;user=root;password=12345678"),
+                sqlOptions
+                    => sqlOptions.UseNetTopologySuite())
             .UseLoggerFactory(LoggerFactory.Create(builder => builder.AddConsole()))
             .EnableSensitiveDataLogging();
 }
