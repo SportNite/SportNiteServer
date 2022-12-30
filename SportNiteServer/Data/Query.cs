@@ -12,7 +12,7 @@ public class Query
 
     public async Task<User> Me(ClaimsPrincipal claimsPrincipal, AuthService authService)
     {
-        return await authService.GetUser(Utils.GetFirebaseUserId(claimsPrincipal));
+        return await authService.GetUser(claimsPrincipal);
     }
 
     [UsePaging]
@@ -21,7 +21,7 @@ public class Query
     public async Task<IEnumerable<Offer>> MyOffers(ClaimsPrincipal claimsPrincipal, AuthService authService,
         OfferService offerService)
     {
-        return await offerService.GetMyOffers(await authService.GetUser(Utils.GetFirebaseUserId(claimsPrincipal)));
+        return await offerService.GetMyOffers(await authService.GetUser(claimsPrincipal));
     }
 
     [UsePaging]
@@ -31,7 +31,7 @@ public class Query
         ResponseService responseService, AuthService authService)
     {
         return await responseService.GetMyResponses(
-            await authService.GetUser(Utils.GetFirebaseUserId(claimsPrincipal)));
+            await authService.GetUser(claimsPrincipal));
     }
 
     public async Task<List<Weather>> GetForecast(DateTime startDay, double latitude, double longitude,
@@ -57,7 +57,7 @@ public class Query
     {
         return await offerService.GetOffers();
     }
-    
+
     [UseFiltering]
     [UseSorting]
     public async Task<IEnumerable<Place>> GetPlaces(PlaceService placeService)
@@ -71,7 +71,6 @@ public class Query
     public async Task<IEnumerable<Offer>> IncomingOffers(ClaimsPrincipal claimsPrincipal, AuthService authService,
         OfferService offerService)
     {
-        return await offerService.GetIncomingOffers(
-            await authService.GetUser(Utils.GetFirebaseUserId(claimsPrincipal)));
+        return await offerService.GetIncomingOffers( await authService.GetUser(claimsPrincipal));
     }
 }

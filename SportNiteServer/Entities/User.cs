@@ -18,4 +18,5 @@ public class User
     [GraphQLIgnore] public List<Offer> Offers { get; set; }
     [GraphQLIgnore] public List<Response> Responses { get; set; }
     public List<Skill> Skills { get; set; }
+    public string? Phone { get; set; }
 }

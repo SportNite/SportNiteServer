@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using SportNiteServer.Database;
 using SportNiteServer.Dto;
@@ -15,8 +16,9 @@ public class AuthService
         _databaseContext = databaseContext;
     }
 
-    public async Task<User> GetUser(string? firebaseUserId)
+    public async Task<User> GetUser(ClaimsPrincipal claimsPrincipal)
     {
+        var firebaseUserId = Utils.GetFirebaseUserId(claimsPrincipal);
         if (firebaseUserId == null) throw new ForbiddenException();
         if (await _databaseContext.Users.AnyAsync(x => x.FirebaseUserId == firebaseUserId))
         {
@@ -28,6 +30,9 @@ public class AuthService
 
         var user = new User()
         {
+            Phone = claimsPrincipal.HasClaim(x => x.Type == "phone_number")
+                ? claimsPrincipal.Claims.First(x => x.Type == "phone_number").Value
+                : null,
             FirebaseUserId = firebaseUserId,
         };
         await _databaseContext.Users.AddAsync(user);
