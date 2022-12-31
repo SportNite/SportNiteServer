@@ -7,6 +7,7 @@ namespace SportNiteServer.Data;
 
 public class Mutation
 {
+    [GraphQLDescription("Update personal profile")]
     public async Task<User> UpdateUser(UpdateUserInput payload, AuthService authService,
         ClaimsPrincipal claimsPrincipal)
     {
@@ -41,6 +42,7 @@ public class Mutation
             id);
     }
 
+    [GraphQLDescription("Accept response to offer")]
     public async Task<Response?> AcceptResponse(Guid id, ResponseService responseService, AuthService authService,
         ClaimsPrincipal claimsPrincipal)
     {
@@ -48,6 +50,7 @@ public class Mutation
             id);
     }
 
+    [GraphQLDescription("Decline response to offer")]
     public async Task<Response?> RejectResponse(Guid id, ResponseService responseService, AuthService authService,
         ClaimsPrincipal claimsPrincipal)
     {
@@ -55,6 +58,7 @@ public class Mutation
             id);
     }
 
+    
     public async Task<Skill> SetSkill(SetSkillInput input, AuthService authService, ClaimsPrincipal claimsPrincipal)
     {
         return await authService.SetSkill(await authService.GetUser(claimsPrincipal), input);
@@ -65,6 +69,7 @@ public class Mutation
         return await authService.DeleteSkill(await authService.GetUser(claimsPrincipal), sportType);
     }
     
+    [GraphQLDescription("Add another place to exist alongside OSM places")]
     public async Task<Place> CreatePlace(CreatePlaceInput input, PlaceService placeService, AuthService authService,
         ClaimsPrincipal claimsPrincipal)
     {
@@ -78,6 +83,7 @@ public class Mutation
         return await placeService.DeletePlace(await authService.GetUser(claimsPrincipal), id);
     }
 
+    [GraphQLDescription("Import places from OSM Overpass API dump")]
     public async Task<int> ImportPlaces(PlaceService placeService)
     {
         return await placeService.ImportPlaces();

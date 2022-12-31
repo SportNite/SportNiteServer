@@ -13,10 +13,12 @@ public class User
     public int Sex { get; set; }
     public string City { get; set; } = "";
     public string Availability { get; set; } = "";
+    [GraphQLDescription("Short description of user")]
     public string Bio { get; set; } = "";
 
     [GraphQLIgnore] public List<Offer> Offers { get; set; }
     [GraphQLIgnore] public List<Response> Responses { get; set; }
+    [GraphQLDescription("User skills")]
     public List<Skill> Skills { get; set; }
     public string? Phone { get; set; }
 }
