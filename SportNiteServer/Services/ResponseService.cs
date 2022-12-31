@@ -8,12 +8,10 @@ namespace SportNiteServer.Services;
 public class ResponseService
 {
     private readonly DatabaseContext _databaseContext;
-    private readonly WeatherService _weatherService;
 
-    public ResponseService(DatabaseContext databaseContext, WeatherService weatherService)
+    public ResponseService(DatabaseContext databaseContext)
     {
         _databaseContext = databaseContext;
-        _weatherService = weatherService;
     }
 
     public async Task<Response?> CreateResponse(User user, CreateResponseInput input)
@@ -21,12 +19,12 @@ public class ResponseService
         var responses = await _databaseContext.Responses.Where(x => x.OfferId == input.OfferId).ToListAsync();
         if (responses.Any(x => x.Status == Response.ResponseStatus.Approved)) return null;
         if (responses.Any(x => x.UserId == user.UserId && x.Status == Response.ResponseStatus.Pending)) return null;
-        var response = new Response()
+        var response = new Response
         {
             OfferId = input.OfferId,
             Description = input.Description,
             UserId = user.UserId,
-            Status = Response.ResponseStatus.Pending,
+            Status = Response.ResponseStatus.Pending
         };
         if (input.ResponseId != null) response.ResponseId = input.ResponseId.Value;
         await _databaseContext.Responses.AddAsync(response);
@@ -41,7 +39,7 @@ public class ResponseService
             .Include(x => x.User)
             .SelectAsync(async x =>
             {
-                var weather = await _weatherService.GetWeatherForOffer(x.Offer);
+                var weather = await WeatherService.GetWeatherForOffer(x.Offer);
                 if (weather != null) x.Offer.Weather = weather;
                 return x;
             });

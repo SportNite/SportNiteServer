@@ -28,12 +28,12 @@ public class AuthService
                 .FirstAsync();
         }
 
-        var user = new User()
+        var user = new User
         {
             Phone = claimsPrincipal.HasClaim(x => x.Type == "phone_number")
                 ? claimsPrincipal.Claims.First(x => x.Type == "phone_number").Value
                 : null,
-            FirebaseUserId = firebaseUserId,
+            FirebaseUserId = firebaseUserId
         };
         await _databaseContext.Users.AddAsync(user);
         await _databaseContext.SaveChangesAsync();
@@ -93,7 +93,7 @@ public class AuthService
         return skill;
     }
 
-    public async Task<IEnumerable<User?>> GetUsers()
+    public IEnumerable<User> GetUsers()
     {
         return _databaseContext.Users.Include(x => x.Skills);
     }

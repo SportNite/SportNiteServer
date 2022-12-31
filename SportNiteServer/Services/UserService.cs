@@ -1,5 +1,4 @@
-﻿using Sentry;
-using SportNiteServer.Database;
+﻿using SportNiteServer.Database;
 using User = SportNiteServer.Entities.User;
 
 namespace SportNiteServer.Services;

@@ -2,3 +2,6 @@ version: "1.0"
 linter: jetbrains/qodana-dotnet:2022.3-eap
 exclude:
   - name: UnusedAutoPropertyAccessor.Global
+  - name: ClassNeverInstantiated.Global
+  - name: UnusedMember.Global
+  - name: PropertyCanBeMadeInitOnly.Global

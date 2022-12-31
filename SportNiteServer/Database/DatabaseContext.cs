@@ -5,11 +5,11 @@ namespace SportNiteServer.Database;
 
 public class DatabaseContext : DbContext
 {
-    public DbSet<User?> Users { get; set; }
-    public DbSet<Offer> Offers { get; set; }
-    public DbSet<Response> Responses { get; set; }
-    public DbSet<Skill> Skills { get; set; }
-    public DbSet<Place> Places { get; set; }
+    public DbSet<User> Users => Set<User>();
+    public DbSet<Offer> Offers => Set<Offer>();
+    public DbSet<Response> Responses => Set<Response>();
+    public DbSet<Skill> Skills => Set<Skill>();
+    public DbSet<Place> Places => Set<Place>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
         optionsBuilder

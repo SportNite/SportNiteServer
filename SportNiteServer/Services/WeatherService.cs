@@ -6,7 +6,7 @@ namespace SportNiteServer.Services;
 
 public class WeatherService
 {
-    public async Task<Weather?> GetWeatherForOffer(Offer offer)
+    public static async Task<Weather?> GetWeatherForOffer(Offer offer)
     {
         try
         {
@@ -22,7 +22,7 @@ public class WeatherService
                 DateTime = offer.DateTime,
                 Temperature = Utils.Average(data.hourly.temperature_2m.ToObject<List<double>>()),
                 WindSpeed = Utils.Average(data.hourly.windspeed_10m.ToObject<List<double>>()),
-                Precipitation = Utils.Average(data.hourly.precipitation.ToObject<List<double>>()),
+                Precipitation = Utils.Average(data.hourly.precipitation.ToObject<List<double>>())
             };
         }
         catch (Exception)
@@ -31,7 +31,7 @@ public class WeatherService
         }
     }
 
-    public async Task<List<Weather>> GetForecast(DateTime startDay, double latitude, double longitude)
+    public static async Task<List<Weather>?> GetForecast(DateTime startDay, double latitude, double longitude)
     {
         try
         {
@@ -47,13 +47,14 @@ public class WeatherService
             var i = 0;
             foreach (JValue time in data.hourly.time)
             {
-                items.Add(new Weather()
-                {
-                    DateTime = DateTime.Parse(time.Value.ToString()),
-                    Temperature = data.hourly.temperature_2m[i],
-                    Precipitation = data.hourly.precipitation[i],
-                    WindSpeed = data.hourly.windspeed_10m[i]
-                });
+                if (time.Value != null)
+                    items.Add(new Weather
+                    {
+                        DateTime = DateTime.Parse(time.Value.ToString() ?? string.Empty),
+                        Temperature = data.hourly.temperature_2m[i],
+                        Precipitation = data.hourly.precipitation[i],
+                        WindSpeed = data.hourly.windspeed_10m[i]
+                    });
                 i++;
             }
 

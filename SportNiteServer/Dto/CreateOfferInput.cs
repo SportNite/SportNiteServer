@@ -1,4 +1,7 @@
 using SportNiteServer.Entities;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable once ClassNeverInstantiated.Global
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
 namespace SportNiteServer.Dto;
 
@@ -11,6 +14,6 @@ public class CreateOfferInput
     public double? Longitude { get; set; }
     public Offer.SportType Sport { get; set; }
     public long PlaceId { get; set; }
-    public string City { get; set; }
-    public string Street { get; set; }
+    public string City { get; set; } = "";
+    public string Street { get; set; } = "";
 }

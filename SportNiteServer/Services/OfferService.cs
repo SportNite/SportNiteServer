@@ -1,26 +1,18 @@
-using System.Collections;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using SportNiteServer.Database;
 using SportNiteServer.Dto;
 using SportNiteServer.Entities;
-using System.Linq;
 
 namespace SportNiteServer.Services;
 
 public class OfferService
 {
     private readonly DatabaseContext _databaseContext;
-    private readonly AuthService _authService;
-    private readonly WeatherService _weatherService;
     private readonly PlaceService _placeService;
 
-    public OfferService(DatabaseContext databaseContext, AuthService authService, WeatherService weatherService,
-        PlaceService placeService)
+    public OfferService(DatabaseContext databaseContext, PlaceService placeService)
     {
         _databaseContext = databaseContext;
-        _authService = authService;
-        _weatherService = weatherService;
         _placeService = placeService;
     }
 
@@ -73,7 +65,7 @@ public class OfferService
 
     private async Task<Offer> InjectWeather(Offer offer)
     {
-        var weather = await _weatherService.GetWeatherForOffer(offer);
+        var weather = await WeatherService.GetWeatherForOffer(offer);
         if (weather != null) offer.Weather = weather;
         return offer;
     }
@@ -99,7 +91,7 @@ public class OfferService
             .Select(InjectPlace)
             .Select(x =>
             {
-                x.Responses = x.Responses.Where(x => x.Status == Response.ResponseStatus.Approved).ToList();
+                x.Responses = x.Responses.Where(y => y.Status == Response.ResponseStatus.Approved).ToList();
                 return x;
             })
             .SelectAsync(InjectWeather);

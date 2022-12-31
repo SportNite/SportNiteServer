@@ -1,4 +1,7 @@
 namespace SportNiteServer.Dto;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable once ClassNeverInstantiated.Global
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
 public class UpdateUserInput
 {

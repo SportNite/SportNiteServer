@@ -1,9 +1,10 @@
-using Newtonsoft.Json;
-using SportNiteServer.Entities;
-
 namespace SportNiteServer.Dto;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable once ClassNeverInstantiated.Global
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
 public class OverpassResponse
 {
-    public List<OverpassPlace> elements { get; set; }
+    // ReSharper disable once CollectionNeverUpdated.Global
+    public List<OverpassPlace> Elements { get; set; } = new();
 }

@@ -11,7 +11,7 @@ namespace SportNiteServer.Services;
 
 public class PlaceService
 {
-    private List<Place> _places = new();
+    private readonly List<Place> _places = new();
 
     private readonly DatabaseContext _databaseContext;
 
@@ -21,19 +21,20 @@ public class PlaceService
         var content =
             File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "Assets/sport_objects_krakow.geojson"));
         var overpass = JsonSerializer.Deserialize<OverpassResponse>(content);
-        foreach (var overpassElement in overpass.elements.Where(x => x.type == "node"))
-        {
-            var place = new Place
+        if (overpass != null)
+            foreach (var overpassElement in overpass.Elements.Where(x => x.type == "node"))
             {
-                Id = overpassElement.id,
-                Location = new Point(overpassElement.lon, overpassElement.lat),
-            };
-            if (overpassElement.tags != null && overpassElement.tags.ContainsKey("name"))
-                place.Name = overpassElement.tags["name"];
-            if (overpassElement.tags != null && overpassElement.tags.ContainsKey("sport"))
-                place.Sport = overpassElement.tags["sport"];
-            _places.Add(place);
-        }
+                var place = new Place
+                {
+                    Id = overpassElement.id,
+                    Location = new Point(overpassElement.lon, overpassElement.lat)
+                };
+                if (overpassElement.tags != null && overpassElement.tags.ContainsKey("name"))
+                    place.Name = overpassElement.tags["name"];
+                if (overpassElement.tags != null && overpassElement.tags.ContainsKey("sport"))
+                    place.Sport = overpassElement.tags["sport"];
+                _places.Add(place);
+            }
 
         _places = _places.Where(x => x.Name is {Length: > 0}).ToList();
         Console.WriteLine($"Loaded {_places.Count} places");
@@ -48,7 +49,7 @@ public class PlaceService
         return _places.Count;
     }
 
-    public async Task<IEnumerable<Place>> GetPlaces()
+    public IEnumerable<Place> GetPlaces()
     {
         return _databaseContext.Places.Where(x => true);
     }
@@ -61,7 +62,7 @@ public class PlaceService
 
     public async Task<Place> CreatePlace(User user, CreatePlaceInput input)
     {
-        var place = new Place()
+        var place = new Place
         {
             Id = input.Id,
             Name = input.Name,

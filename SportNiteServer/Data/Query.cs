@@ -1,14 +1,13 @@
 using System.Security.Claims;
-using SportNiteServer.Database;
-using SportNiteServer.Dto;
 using SportNiteServer.Entities;
 using SportNiteServer.Services;
 
 namespace SportNiteServer.Data;
 
+// ReSharper disable once ClassNeverInstantiated.Global
 public class Query
 {
-    public string version() => "1.0.0";
+    public string Version() => "1.0.0";
 
     [GraphQLDescription("Signed in user")]
     public async Task<User> Me(ClaimsPrincipal claimsPrincipal, AuthService authService)
@@ -38,10 +37,9 @@ public class Query
     }
 
     [GraphQLDescription("Get forecast for specific day and location")]
-    public async Task<List<Weather>> GetForecast(DateTime startDay, double latitude, double longitude,
-        WeatherService weatherService)
+    public async Task<List<Weather>?> GetForecast(DateTime startDay, double latitude, double longitude)
     {
-        return await weatherService.GetForecast(startDay, latitude, longitude);
+        return await WeatherService.GetForecast(startDay, latitude, longitude);
     }
 
 
@@ -49,9 +47,9 @@ public class Query
     [UsePaging]
     [UseFiltering]
     [UseSorting]
-    public async Task<IEnumerable<User?>> GetUsers(AuthService authService)
+    public IEnumerable<User?> GetUsers(AuthService authService)
     {
-        return await authService.GetUsers();
+        return authService.GetUsers();
     }
 
 
@@ -67,9 +65,9 @@ public class Query
     [GraphQLDescription("Get all places")]
     [UseFiltering]
     [UseSorting]
-    public async Task<IEnumerable<Place>> GetPlaces(PlaceService placeService)
+    public IEnumerable<Place> GetPlaces(PlaceService placeService)
     {
-        return await placeService.GetPlaces();
+        return placeService.GetPlaces();
     }
 
     [GraphQLDescription("Get all offers that are accepted and related to signed user")]
@@ -78,6 +76,6 @@ public class Query
     public async Task<IEnumerable<Offer>> IncomingOffers(ClaimsPrincipal claimsPrincipal, AuthService authService,
         OfferService offerService)
     {
-        return await offerService.GetIncomingOffers( await authService.GetUser(claimsPrincipal));
+        return await offerService.GetIncomingOffers(await authService.GetUser(claimsPrincipal));
     }
 }
