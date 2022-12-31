@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using NetTopologySuite.Geometries;
 
 #nullable disable
 
 namespace SportNiteServer.Migrations
-{
+{ [ExcludeFromCodeCoverage]
     public partial class PlacesCreate2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

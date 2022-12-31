@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.EntityFrameworkCore.Migrations;
 using MySql.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
 namespace SportNiteServer.Migrations
-{
+{ [ExcludeFromCodeCoverage]
     public partial class PlacesCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

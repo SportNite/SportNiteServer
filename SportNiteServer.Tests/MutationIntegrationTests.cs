@@ -16,7 +16,7 @@ using SportNiteServer.Services;
 
 namespace SportNiteServer.Tests;
 
-public class QueryIntegrationTests
+public class MutationIntegrationTests
 {
     private IRequestExecutor _executor;
     private IServiceProvider _serviceProvider;
@@ -82,19 +82,7 @@ public class QueryIntegrationTests
     }
 
     [Test]
-    public async Task Version()
-    {
-        StringAssert.Contains("1.0.0", await Query("{version}"));
-    }
-
-    [Test]
-    public async Task Me()
-    {
-        StringAssert.Contains(TestUserPhone, await Query("query {  me {    firebaseUserId    phone  }}"));
-    }
-
-    [Test]
-    public async Task Offers()
+    public async Task CreateOffer()
     {
         await Query(
             "mutation {  createOffer(    input: {      dateTime: \"2022-12-12\"      sport: TENNIS      street: \"Mickiewicza\"      city: \"Krakow\"      placeId: 0    }  ) {    offerId    sport    dateTime  }}");
@@ -117,44 +105,7 @@ public class QueryIntegrationTests
     }
 
     [Test]
-    public async Task Users()
-    {
-        var result = await Query(@"query {
-              users {
-                nodes {
-                  firebaseUserId
-                  phone
-                }
-              }
-            }");
-        StringAssert.Contains(TestUserFirebaseId, result);
-        StringAssert.Contains(TestUserPhone, result);
-    }
-
-    [Test]
-    public async Task MyOffers()
-    {
-        await Query(
-            "mutation {  createOffer(    input: {      dateTime: \"2022-12-12\"      sport: TENNIS      street: \"Mickiewicza\"      city: \"Krakow\"      placeId: 0    }  ) {    offerId    sport    dateTime  }}");
-        var result = await Query(@"query {
-              myOffers(last: 50) {
-                nodes {
-                  offerId
-                  sport
-                  street
-                  city
-                  dateTime
-                }
-              }
-            }");
-        StringAssert.Contains("Krakow", result);
-        StringAssert.Contains("Mickiewicza", result);
-        StringAssert.Contains("TENNIS", result);
-        StringAssert.Contains("2022-12", result);
-    }
-
-    [Test]
-    public async Task MyResponses()
+    public async Task CreateResponse()
     {
         await Query(
             "mutation {  createResponse(    input: {      offerId: \"08daeb2d-60b9-4241-8d96-095d3eee6acc\"      description: \"Test description\"    }  ) {    offerId    description    responseId  }}");
@@ -174,39 +125,83 @@ public class QueryIntegrationTests
     }
 
     [Test]
-    public async Task IncomingOffers()
+    public async Task Me()
     {
-        var result = await Query(@"
-           query {
-              incomingOffers {
-                offerId
-                description
-              }
-            }
-            ");
-        StringAssert.Contains("data", result);
+        await Query("mutation {  updateUser(payload: { bio: \"Test bio\" }) {    firebaseUserId  }}");
+        StringAssert.Contains("Test bio", await Query("query {  me {    firebaseUserId    phone bio  }}"));
     }
 
     [Test]
-    public async Task Places()
+    public async Task DeleteOffer()
     {
+        await Query(
+            "mutation {  createOffer(    input: {      offerId: \"72d2594c-a955-47e0-aca1-024715d719e4\"      dateTime: \"2022-12-01\"      sport: TENNIS      street: \"Mickiewicza\"      city: \"Krakow\"      placeId: 0    }  ) {    offerId    sport    dateTime  }}");
+
+        var result = await Query(@"query {
+              offers(last: 50) {
+                nodes {
+                  offerId
+                  sport
+                  street
+                  city
+                  dateTime
+                }
+              }
+            }");
+        StringAssert.Contains("72d2594c-a955-47e0-aca1-024715d719e4", result);
+        await Query("mutation {  deleteOffer(id: \"72d2594c-a955-47e0-aca1-024715d719e4\") {    offerId  }}");
+        
+        var result2 = await Query(@"query {
+              offers(last: 50) {
+                nodes {
+                  offerId
+                  sport
+                  street
+                  city
+                  dateTime
+                }
+              }
+            }");
+        StringAssert.DoesNotContain("72d2594c-a955-47e0-aca1-024715d719e4", result2);
+    }
+    
+    
+    [Test]
+    public async Task DeleteResponse()
+    {
+        await Query(
+            "mutation {  createOffer(    input: {      offerId: \"72d2594c-a955-47e0-aca1-024715d719e5\"      dateTime: \"2022-12-01\"      sport: TENNIS      street: \"Mickiewicza\"      city: \"Krakow\"      placeId: 0    }  ) {    offerId    sport    dateTime  }}");
+
+        await Query("mutation {  createResponse(    input: {      responseId: \"72d2594c-a955-47e0-aca1-024715d719e4\"      offerId: \"72d2594c-a955-47e0-aca1-024715d719e5\"      description: \"Test description\"    }  ) {    offerId    description    responseId  }}");
+
         var result = await Query(@"
-           query {
-              places {
-                id
-                name
+            query {
+              myResponses(last: 50) {
+                nodes {
+                  offerId
+                  responseId
+                  description
+                  responseId
+                }
               }
             }
             ");
-        StringAssert.Contains("Hotel", result);
-    }
-
-    [Test]
-    public async Task Forecast()
-    {
-        var result =
-            await Query(
-                "query {  forecast(startDay: \"2022-12-12\", latitude: 1, longitude: 1) {    windSpeed    precipitation    temperature    dateTime  }}");
-        for (var i = 10; i < 20; i++) StringAssert.Contains($"{i}:00:00.000", result);
+        StringAssert.Contains("72d2594c-a955-47e0-aca1-024715d719e4", result);
+        
+        await Query("mutation {  deleteResponse(id: \"72d2594c-a955-47e0-aca1-024715d719e4\") {    responseId  }}");
+        
+        var result2 = await Query(@"
+            query {
+              myResponses(last: 50) {
+                nodes {
+                  offerId
+                  responseId
+                  description
+                  responseId
+                }
+              }
+            }
+            ");
+        StringAssert.DoesNotContain("72d2594c-a955-47e0-aca1-024715d719e4", result2);
     }
 }

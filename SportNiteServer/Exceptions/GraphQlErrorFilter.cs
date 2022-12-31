@@ -1,5 +1,8 @@
-﻿namespace SportNiteServer.Exceptions;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace SportNiteServer.Exceptions;
+
+[ExcludeFromCodeCoverage]
 public class GraphQlErrorFilter : IErrorFilter
 {
     public IError OnError(IError error)

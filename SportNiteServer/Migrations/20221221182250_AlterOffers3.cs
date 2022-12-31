@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace SportNiteServer.Migrations
-{
+{ [ExcludeFromCodeCoverage]
     public partial class AlterOffers3 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

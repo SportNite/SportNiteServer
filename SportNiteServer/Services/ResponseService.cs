@@ -26,7 +26,7 @@ public class ResponseService
             UserId = user.UserId,
             Status = Response.ResponseStatus.Pending
         };
-        if (input.ResponseId != null) response.ResponseId = input.ResponseId.Value;
+        if (input.ResponseId != Guid.Empty) response.ResponseId = input.ResponseId.Value;
         await _databaseContext.Responses.AddAsync(response);
         await _databaseContext.SaveChangesAsync();
         return response;

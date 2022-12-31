@@ -11,13 +11,16 @@ namespace SportNiteServer.Services;
 
 public class PlaceService
 {
-    private readonly List<Place> _places = new();
-
+    private List<Place> _places = new();
     private readonly DatabaseContext _databaseContext;
 
     public PlaceService(DatabaseContext databaseContext)
     {
         _databaseContext = databaseContext;
+    }
+
+    public async Task<int> ImportPlaces()
+    {
         var content =
             File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "Assets/sport_objects_krakow.geojson"));
         var overpass = JsonSerializer.Deserialize<OverpassResponse>(content);
@@ -38,10 +41,6 @@ public class PlaceService
 
         _places = _places.Where(x => x.Name is {Length: > 0}).ToList();
         Console.WriteLine($"Loaded {_places.Count} places");
-    }
-
-    public async Task<int> ImportPlaces()
-    {
         foreach (var place in _places)
             if (!await _databaseContext.Places.AnyAsync(x => x.Id == place.Id))
                 _databaseContext.Places.Add(place);
@@ -56,7 +55,7 @@ public class PlaceService
 
     public Place FindPlace(long id)
     {
-        return _places.First(x => x.Id == id);
+        return _databaseContext.Places.First(x => x.Id == id);
     }
 
 
