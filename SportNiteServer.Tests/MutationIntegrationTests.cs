@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
-using System.Threading;
 using System.Threading.Tasks;
 using HotChocolate;
 using HotChocolate.Execution;
@@ -18,8 +17,8 @@ namespace SportNiteServer.Tests;
 
 public class MutationIntegrationTests
 {
-    private IRequestExecutor _executor;
-    private IServiceProvider _serviceProvider;
+    private IRequestExecutor _executor = null!;
+    private IServiceProvider _serviceProvider = null!;
 
     private const string TestUserFirebaseId = "aaaaaaaaaaaaaaaaaaaaaaaaaaaa";
     private const string TestUserPhone = "48123456789";

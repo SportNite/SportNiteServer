@@ -1,4 +1,3 @@
-using System.Reflection;
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using NetTopologySuite.Geometries;
@@ -23,7 +22,8 @@ public class PlaceService
     public async Task<int> ImportPlaces()
     {
         var content =
-            File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "Assets/sport_objects_krakow.geojson"));
+            await File.ReadAllTextAsync(Path.Combine(Directory.GetCurrentDirectory(),
+                "Assets/sport_objects_krakow.geojson"));
         var overpass = JsonSerializer.Deserialize<OverpassResponse>(content);
         if (overpass != null)
             foreach (var overpassElement in overpass.elements.Where(x => x.type == "node"))
