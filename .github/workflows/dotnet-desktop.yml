@@ -64,6 +64,12 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
+        
+    - name: Update database
+      run: |
+        dotnet tool install --global dotnet-ef
+        dotnet tool restore
+        dotnet ef database update
 
     - name: Execute unit tests
-      run: dotnet ef database update; dotnet test
+      run:  dotnet test
