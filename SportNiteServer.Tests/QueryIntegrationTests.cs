@@ -137,7 +137,7 @@ public class QueryIntegrationTests
         await Query(
             "mutation {  createOffer(    input: {      dateTime: \"2022-12-12\"      sport: TENNIS      street: \"Mickiewicza\"      city: \"Krakow\"      placeId: 0    }  ) {    offerId    sport    dateTime  }}");
         var result = await Query(@"query {
-              myOffers(last: 50) {
+              myOffers {
                 nodes {
                   offerId
                   sport
