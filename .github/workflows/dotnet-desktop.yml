@@ -34,7 +34,7 @@ jobs:
         dotnet ef database update --project SportNiteServer
 
     - name: Execute unit tests
-      run: dotnet test -l:trx dotnet test /p:CollectCoverage=true /p:CoverletOutput=Coverage/ /p:CoverletOutputFormat=lcov
+      run: dotnet test -l:trx /p:CollectCoverage=true /p:CoverletOutput=Coverage/ /p:CoverletOutputFormat=lcov
       
     - name: Publish Test Results
       uses: EnricoMi/publish-unit-test-result-action@v2
