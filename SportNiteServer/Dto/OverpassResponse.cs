@@ -6,5 +6,7 @@ namespace SportNiteServer.Dto;
 public class OverpassResponse
 {
     // ReSharper disable once CollectionNeverUpdated.Global
-    public List<OverpassPlace> Elements { get; set; } = new();
+    // Lower case name because JSON key serialization
+    // ReSharper disable once InconsistentNaming
+    public List<OverpassPlace> elements { get; set; } = new();
 }

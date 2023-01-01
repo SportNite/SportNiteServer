@@ -49,7 +49,7 @@ public class AuthService
         if (payload.City != null) user.City = payload.City;
         if (payload.Name != null) user.Name = payload.Name;
         if (payload.Sex != null) user.Sex = payload.Sex.Value;
-        if (payload.Sex != null) user.Sex = payload.Sex.Value;
+        if (payload.BirthDate != null) user.BirthDate = payload.BirthDate.Value;
         if (payload.Avatar != null) user.Avatar = payload.Avatar;
         await _databaseContext.SaveChangesAsync();
         return user;

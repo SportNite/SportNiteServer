@@ -150,7 +150,7 @@ public class MutationIntegrationTests
             }");
         StringAssert.Contains("72d2594c-a955-47e0-aca1-024715d719e4", result);
         await Query("mutation {  deleteOffer(id: \"72d2594c-a955-47e0-aca1-024715d719e4\") {    offerId  }}");
-        
+
         var result2 = await Query(@"query {
               offers(last: 50) {
                 nodes {
@@ -164,15 +164,16 @@ public class MutationIntegrationTests
             }");
         StringAssert.DoesNotContain("72d2594c-a955-47e0-aca1-024715d719e4", result2);
     }
-    
-    
+
+
     [Test]
     public async Task DeleteResponse()
     {
         await Query(
             "mutation {  createOffer(    input: {      offerId: \"72d2594c-a955-47e0-aca1-024715d719e5\"      dateTime: \"2022-12-01\"      sport: TENNIS      street: \"Mickiewicza\"      city: \"Krakow\"      placeId: 0    }  ) {    offerId    sport    dateTime  }}");
 
-        await Query("mutation {  createResponse(    input: {      responseId: \"72d2594c-a955-47e0-aca1-024715d719e4\"      offerId: \"72d2594c-a955-47e0-aca1-024715d719e5\"      description: \"Test description\"    }  ) {    offerId    description    responseId  }}");
+        await Query(
+            "mutation {  createResponse(    input: {      responseId: \"72d2594c-a955-47e0-aca1-024715d719e4\"      offerId: \"72d2594c-a955-47e0-aca1-024715d719e5\"      description: \"Test description\"    }  ) {    offerId    description    responseId  }}");
 
         var result = await Query(@"
             query {
@@ -187,9 +188,9 @@ public class MutationIntegrationTests
             }
             ");
         StringAssert.Contains("72d2594c-a955-47e0-aca1-024715d719e4", result);
-        
+
         await Query("mutation {  deleteResponse(id: \"72d2594c-a955-47e0-aca1-024715d719e4\") {    responseId  }}");
-        
+
         var result2 = await Query(@"
             query {
               myResponses(last: 50) {
@@ -203,5 +204,139 @@ public class MutationIntegrationTests
             }
             ");
         StringAssert.DoesNotContain("72d2594c-a955-47e0-aca1-024715d719e4", result2);
+    }
+
+    [Test]
+    public async Task SetSkill()
+    {
+        await Query(
+            "mutation {  setSkill(input: { sport: TENNIS, nrtp: 5, level: 7, years: 3 }) {    sport    skillId    years    nrtp  }}");
+        var result = await Query(@"
+            query {
+              me {
+                firebaseUserId
+                skills {
+                  sport
+                  skillId
+                  years
+                  nrtp
+                  level 
+                  weight
+                  height
+                }
+              }
+            }
+            ");
+        StringAssert.Contains("TENNIS", result);
+        StringAssert.Contains("3", result);
+        StringAssert.Contains("5", result);
+        StringAssert.Contains("7", result);
+    }
+
+    [Test]
+    public async Task DeleteSkill()
+    {
+        await Query(
+            "mutation {  setSkill(input: { sport: TENNIS, nrtp: 5, level: 7, years: 3 }) {    sport    skillId    years    nrtp  }}");
+        var result = await Query(@"
+            query {
+              me {
+                firebaseUserId
+                skills {
+                  sport
+                  skillId
+                  years
+                  nrtp
+                  level
+                }
+              }
+            }
+            ");
+        StringAssert.Contains("TENNIS", result);
+        StringAssert.Contains("3", result);
+        StringAssert.Contains("5", result);
+        StringAssert.Contains("7", result);
+
+        await Query(@"
+        mutation {
+          deleteSkill(sportType: TENNIS) {
+            sport
+          }
+        }
+        ");
+
+        var result2 = await Query(@"
+            query {
+              me {
+                skills {
+                  sport
+                  skillId
+                  years
+                  nrtp
+                  level
+                }
+              }
+            }
+            ");
+        StringAssert.DoesNotContain("TENNIS", result2);
+        StringAssert.DoesNotContain("3", result2);
+        StringAssert.DoesNotContain("5", result2);
+        StringAssert.DoesNotContain("7", result2);
+    }
+
+    [Test]
+    public async Task CreatePlace()
+    {
+        await Query(
+            "mutation {  createPlace(    input: {      id: 8      sport: \"swimming\"      latitude: 1      longitude: 2      name: \"Plywalnia MUSZELKA\"    }  ) {    authorId    sport    location {      coordinates    }  }}");
+        var result = await Query(@"
+            query {
+              places {
+                name
+              }
+            }
+            ");
+        StringAssert.Contains("MUSZELKA", result);
+    }
+
+    [Test]
+    public async Task DeletePlace()
+    {
+        await Query(
+            "mutation {  createPlace(    input: {      id: 7      sport: \"swimming\"      latitude: 1      longitude: 2      name: \"Plywalnia KARPIK\"    }  ) {    authorId    sport    location {      coordinates    }  }}");
+        var result = await Query(@"
+            query {
+              places {
+                name
+              }
+            }
+            ");
+        StringAssert.Contains("KARPIK", result);
+
+        await Query(@"
+        mutation {
+          deletePlace(id: 7) {
+            name
+          }
+        }
+        ");
+        var result2 = await Query(@"
+            query {
+              places {
+                name
+              }
+            }
+            ");
+        StringAssert.DoesNotContain("KARPIK", result2);
+    }
+
+    [Test]
+    public async Task ImportPlaces()
+    {
+        StringAssert.Contains("1131", await Query(@"
+            mutation {
+              importPlaces
+            }
+        "));
     }
 }

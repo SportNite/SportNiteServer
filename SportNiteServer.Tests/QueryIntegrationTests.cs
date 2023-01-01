@@ -107,6 +107,7 @@ public class QueryIntegrationTests
                   street
                   city
                   dateTime
+                  user { userId } description isAvailable responses { responseId } place { id } weather { windSpeed } 
                 }
               }
             }");
@@ -166,6 +167,12 @@ public class QueryIntegrationTests
                   offerId
                   description
                   responseId
+                  offer {
+                   offerId
+                  }
+                  user {
+                   userId
+                  }
                 }
               }
             }

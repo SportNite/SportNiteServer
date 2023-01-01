@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using NetTopologySuite.Geometries;
@@ -13,19 +14,23 @@ public class PlaceService
 {
     private List<Place> _places = new();
     private readonly DatabaseContext _databaseContext;
+    private readonly string _contentRoot;
 
     public PlaceService(DatabaseContext databaseContext)
     {
         _databaseContext = databaseContext;
+        _contentRoot = AppDomain.CurrentDomain
+            .BaseDirectory[..AppDomain.CurrentDomain.BaseDirectory.IndexOf("bin\\", StringComparison.Ordinal)]
+            .Replace("SportNiteServer.Tests", "SportNiteServer");
     }
 
     public async Task<int> ImportPlaces()
     {
         var content =
-            File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "Assets/sport_objects_krakow.geojson"));
+            File.ReadAllText(Path.Combine(_contentRoot, "Assets/sport_objects_krakow.geojson"));
         var overpass = JsonSerializer.Deserialize<OverpassResponse>(content);
         if (overpass != null)
-            foreach (var overpassElement in overpass.Elements.Where(x => x.type == "node"))
+            foreach (var overpassElement in overpass.elements.Where(x => x.type == "node"))
             {
                 var place = new Place
                 {
