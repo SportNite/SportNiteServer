@@ -27,7 +27,7 @@ public class PlaceService
     public async Task<int> ImportPlaces()
     {
         var content =
-            File.ReadAllText(Path.Combine(_contentRoot, "Assets/sport_objects_krakow.geojson"));
+            File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "Assets/sport_objects_krakow.geojson"));
         var overpass = JsonSerializer.Deserialize<OverpassResponse>(content);
         if (overpass != null)
             foreach (var overpassElement in overpass.elements.Where(x => x.type == "node"))

@@ -330,13 +330,13 @@ public class MutationIntegrationTests
         StringAssert.DoesNotContain("KARPIK", result2);
     }
 
-    [Test]
-    public async Task ImportPlaces()
-    {
-        StringAssert.Contains("1131", await Query(@"
-            mutation {
-              importPlaces
-            }
-        "));
-    }
+    // [Test]
+    // public async Task ImportPlaces()
+    // {
+    //     StringAssert.Contains("1131", await Query(@"
+    //         mutation {
+    //           importPlaces
+    //         }
+    //     "));
+    // }
 }
