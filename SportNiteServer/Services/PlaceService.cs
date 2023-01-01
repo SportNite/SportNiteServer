@@ -54,9 +54,9 @@ public class PlaceService
         return _databaseContext.Places.Where(x => true);
     }
 
-    public Place FindPlace(long id)
+    public Place? FindPlace(long id)
     {
-        return _databaseContext.Places.First(x => x.Id == id);
+        return id == 0 ? null : _databaseContext.Places.First(x => x.Id == id);
     }
 
 

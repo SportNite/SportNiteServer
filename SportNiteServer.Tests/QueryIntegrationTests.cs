@@ -157,6 +157,9 @@ public class QueryIntegrationTests
     public async Task MyResponses()
     {
         await Query(
+            "mutation {  createOffer(    input: {    offerId: \"08daeb2d-60b9-4241-8d96-095d3eee6acc\"     dateTime: \"2022-12-12\"      sport: TENNIS      street: \"Mickiewicza\"      city: \"Krakow\"      placeId: 0    }  ) {    offerId    sport    dateTime  }}");
+
+        await Query(
             "mutation {  createResponse(    input: {      offerId: \"08daeb2d-60b9-4241-8d96-095d3eee6acc\"      description: \"Test description\"    }  ) {    offerId    description    responseId  }}");
 
         var result = await Query(@"
@@ -196,6 +199,9 @@ public class QueryIntegrationTests
     [Test]
     public async Task Places()
     {
+        await Query(
+            "mutation {  createPlace(    input: {      id: 8      sport: \"swimming\"      latitude: 1      longitude: 2      name: \"Plywalnia SZKOLNA17\"    }  ) {    authorId    sport    location {      coordinates    }  }}");
+
         var result = await Query(@"
            query {
               places {
@@ -204,7 +210,7 @@ public class QueryIntegrationTests
               }
             }
             ");
-        StringAssert.Contains("Hotel", result);
+        StringAssert.Contains("SZKOLNA17", result);
     }
 
     [Test]
