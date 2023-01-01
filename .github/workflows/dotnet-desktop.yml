@@ -34,7 +34,7 @@ jobs:
         dotnet ef database update --project SportNiteServer
 
     - name: Execute unit tests
-      run:  dotnet test -l:trx
+      run: dotnet test -l:trx dotnet test /p:CollectCoverage=true /p:CoverletOutput=Coverage/ /p:CoverletOutputFormat=lcov
       
     - name: Publish Test Results
       uses: EnricoMi/publish-unit-test-result-action@v2
@@ -45,3 +45,4 @@ jobs:
       uses: coverallsapp/github-action@master
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
+        path-to-lcov: SportNiteServer.Tests/Coverage/coverage.info
