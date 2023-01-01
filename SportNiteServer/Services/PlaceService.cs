@@ -14,14 +14,10 @@ public class PlaceService
 {
     private List<Place> _places = new();
     private readonly DatabaseContext _databaseContext;
-    private readonly string _contentRoot;
 
     public PlaceService(DatabaseContext databaseContext)
     {
         _databaseContext = databaseContext;
-        _contentRoot = AppDomain.CurrentDomain
-            .BaseDirectory[..AppDomain.CurrentDomain.BaseDirectory.IndexOf("bin\\", StringComparison.Ordinal)]
-            .Replace("SportNiteServer.Tests", "SportNiteServer");
     }
 
     public async Task<int> ImportPlaces()
