@@ -200,7 +200,7 @@ public class QueryIntegrationTests
     public async Task Places()
     {
         await Query(
-            "mutation {  createPlace(    input: {      id: 8      sport: \"swimming\"      latitude: 1      longitude: 2      name: \"Plywalnia SZKOLNA17\"    }  ) {    authorId    sport    location {      coordinates    }  }}");
+            "mutation {  createPlace(    input: {      id: 9      sport: \"swimming\"      latitude: 1      longitude: 2      name: \"Plywalnia SZKOLNA17\"    }  ) {    authorId    sport    location {      coordinates    }  }}");
 
         var result = await Query(@"
            query {
@@ -211,5 +211,14 @@ public class QueryIntegrationTests
             }
             ");
         StringAssert.Contains("SZKOLNA17", result);
+        
+        
+        await Query(@"
+        mutation {
+          deletePlace(id: 9) {
+            name
+          }
+        }
+        ");
     }
 }

@@ -62,6 +62,7 @@ public class PlaceService
 
     public async Task<Place> CreatePlace(User user, CreatePlaceInput input)
     {
+        if (await _databaseContext.Places.AnyAsync(x => x.Id == input.Id)) throw new DuplicateKeyException();
         var place = new Place
         {
             Id = input.Id,
