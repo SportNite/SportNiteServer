@@ -37,6 +37,7 @@ App is based on MVC pattern. It consists of 3 layers:
 #### `SportNiteServer.Tests` - project containing integration tests for API
 - `QueryIntegrationTests.cs` - integration tests for GraphQL queries
 - `MutationIntegrationTests.cs` - integration tests for GraphQL mutations
+- `UtilsUnitTests.cs` - unit tests for `Services.Utils`
 
 ### Interfaces
 
