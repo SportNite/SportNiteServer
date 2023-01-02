@@ -63,13 +63,15 @@ public class OfferService
             .SelectAsync(InjectWeather);
     }
 
-    private async Task<Offer> InjectWeather(Offer offer)
+    // Fetch weather for certain offer
+    private static async Task<Offer> InjectWeather(Offer offer)
     {
         var weather = await WeatherService.GetWeatherForOffer(offer);
         if (weather != null) offer.Weather = weather;
         return offer;
     }
 
+    // Fetch place for certain offer
     private Offer InjectPlace(Offer offer)
     {
         if (offer.PlaceId != 0)

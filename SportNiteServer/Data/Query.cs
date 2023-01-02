@@ -4,6 +4,7 @@ using SportNiteServer.Services;
 
 namespace SportNiteServer.Data;
 
+// Available GraphQL queries
 // ReSharper disable once ClassNeverInstantiated.Global
 public class Query
 {

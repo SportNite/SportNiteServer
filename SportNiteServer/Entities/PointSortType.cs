@@ -3,6 +3,8 @@ using NetTopologySuite.Geometries;
 
 namespace SportNiteServer.Entities;
 
+// Injected into HotChocolate.GraphQL execution engine (Program.cs)
+// ReSharper disable once ClassNeverInstantiated.Global
 public class PointSortType : SortInputType<Point>
 {
     protected override void Configure(ISortInputTypeDescriptor<Point> descriptor)

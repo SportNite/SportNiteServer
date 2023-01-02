@@ -16,6 +16,7 @@ public class ResponseService
 
     public async Task<Response?> CreateResponse(User user, CreateResponseInput input)
     {
+        // Perform some checks before creation
         var responses = await _databaseContext.Responses.Where(x => x.OfferId == input.OfferId).ToListAsync();
         if (responses.Any(x => x.Status == Response.ResponseStatus.Approved)) return null;
         if (responses.Any(x => x.UserId == user.UserId && x.Status == Response.ResponseStatus.Pending)) return null;
@@ -89,6 +90,7 @@ public class ResponseService
             item.Status = Response.ResponseStatus.Canceled;
         await _databaseContext.SaveChangesAsync();
 
+        // When some response is accepted, the offer is no longer available 
         var offer = await _databaseContext.Offers.Where(x => x.OfferId == response.OfferId)
             .FirstAsync();
         offer.IsAvailable = false;

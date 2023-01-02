@@ -16,6 +16,7 @@ public class AuthService
         _databaseContext = databaseContext;
     }
 
+    // Get user based on the claims principal
     public async Task<User> GetUser(ClaimsPrincipal claimsPrincipal)
     {
         var firebaseUserId = Utils.GetFirebaseUserId(claimsPrincipal);
@@ -28,6 +29,7 @@ public class AuthService
                 .FirstAsync();
         }
 
+        // If user is not found, create it
         var user = new User
         {
             Phone = claimsPrincipal.HasClaim(x => x.Type == "phone_number")
@@ -42,6 +44,7 @@ public class AuthService
             .FirstAsync();
     }
 
+    // Update user profile
     public async Task<User> UpdateUser(User user, UpdateUserInput payload)
     {
         if (payload.Availability != null) user.Availability = payload.Availability;

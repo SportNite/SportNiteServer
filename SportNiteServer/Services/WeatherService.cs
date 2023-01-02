@@ -6,6 +6,7 @@ namespace SportNiteServer.Services;
 
 public class WeatherService
 {
+    // Get hourly weather data from OpenMeteo API for certain day
     public static async Task<Weather?> GetWeatherForOffer(Offer offer)
     {
         try
@@ -33,6 +34,7 @@ public class WeatherService
         }
     }
 
+    // Get weather forecast from OpenMeteo API starting certain day
     public static async Task<List<Weather>?> GetForecast(DateTime startDay, double latitude, double longitude)
     {
         try

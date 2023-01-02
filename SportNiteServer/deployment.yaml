@@ -1,3 +1,4 @@
+# Kubernetes deployment definition, with single replica
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -22,10 +23,12 @@ spec:
           env:
             - name: MYSQL_CONNECTION
               valueFrom:
+                # Secret containing the MySQL connection string (MySQL standalone instance)
                 secretKeyRef:
                   name: sportnite-secret
                   key: mysql_connection
 ---
+# Service for internal cluster communication
 apiVersion: v1
 kind: Service
 metadata:
@@ -41,6 +44,7 @@ spec:
       protocol: TCP
       targetPort: 80
 ---
+# Ingress exposing server to the internet via nginx-ingress and domain name
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:

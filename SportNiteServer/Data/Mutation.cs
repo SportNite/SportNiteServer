@@ -5,6 +5,8 @@ using SportNiteServer.Services;
 
 namespace SportNiteServer.Data;
 
+// Available mutations that can be performed on the database
+// ReSharper disable once ClassNeverInstantiated.Global
 public class Mutation
 {
     [GraphQLDescription("Update personal profile")]

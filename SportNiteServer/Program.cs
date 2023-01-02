@@ -15,6 +15,7 @@ DotEnv.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configure Sentry for error tracking
 builder.WebHost.UseSentry(o =>
 {
     o.Dsn = "https://13bfcb853a83456492fdfd3c4a889596@o337011.ingest.sentry.io/4504181875933184";
@@ -34,6 +35,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Setup DI container
 builder.Services.AddTransient<AuthService>();
 builder.Services.AddTransient<OfferService>();
 builder.Services.AddTransient<ResponseService>();
@@ -41,6 +43,7 @@ builder.Services.AddTransient<WeatherService>();
 builder.Services.AddSingleton<PlaceService>();
 builder.Services.AddSingleton<UserService>();
 
+// Setup JWT Token decoding (Firebase issuer)
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -55,6 +58,8 @@ builder.Services
             ValidateLifetime = true
         };
     });
+
+// Setup GraphQL with Spatial processing, Tracing, and Authorization
 builder.Services
     .AddGraphQLServer()
     .AddType<PointSortType>()
@@ -93,11 +98,13 @@ app.UseSentryTracing();
 app.UseAuthorization();
 app.UseAuthentication();
 
+// Enable GraphQL Playground
 app.MapControllers();
 app.MapGraphQL();
 app.MapGraphQLVoyager();
 app.UsePlayground(new PlaygroundOptions {QueryPath = "/graphql", Path = "/playground"});
 
+// Automatically apply pending migrations
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;

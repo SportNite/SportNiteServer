@@ -26,6 +26,7 @@ public class QueryIntegrationTests
     [SetUp]
     public async Task Setup()
     {
+        // Setup DI
         var serviceCollection = new ServiceCollection()
             .AddDbContext<DatabaseContext>(ServiceLifetime.Transient)
             .AddTransient<AuthService>()
@@ -35,6 +36,7 @@ public class QueryIntegrationTests
             .AddSingleton<PlaceService>()
             .AddSingleton<UserService>();
 
+        // Setup GraphQL execution engine
         var schema = await serviceCollection
             .AddGraphQLServer()
             .AddType<PointSortType>()
@@ -61,8 +63,10 @@ public class QueryIntegrationTests
         _executor = schema.MakeExecutable();
     }
 
+    // Perform a GraphQL query and return the result as JSON string
     private async Task<string> Query(string query)
     {
+        // Inject fake user into GraphQL context
         var claims = new List<Claim>
         {
             new("user_id", TestUserFirebaseId),

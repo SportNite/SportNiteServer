@@ -19,6 +19,7 @@ public class PlaceService
         _databaseContext = databaseContext;
     }
 
+    // Import places from static file (overpass-turbo dump) into SQL database
     public async Task<int> ImportPlaces()
     {
         var content =

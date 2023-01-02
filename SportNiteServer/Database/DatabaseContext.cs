@@ -11,6 +11,7 @@ public class DatabaseContext : DbContext
     public DbSet<Skill> Skills => Set<Skill>();
     public DbSet<Place> Places => Set<Place>();
 
+    // Connect to database using connection string from environment variable
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
         optionsBuilder
             .UseMySql(Environment.GetEnvironmentVariable("MYSQL_CONNECTION") ??

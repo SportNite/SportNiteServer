@@ -2,6 +2,7 @@
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable once ClassNeverInstantiated.Global
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+// ReSharper disable InconsistentNaming
 
 public class OverpassPlace
 {

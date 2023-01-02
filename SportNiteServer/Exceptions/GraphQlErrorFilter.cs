@@ -3,8 +3,10 @@
 namespace SportNiteServer.Exceptions;
 
 [ExcludeFromCodeCoverage]
+// ReSharper disable once ClassNeverInstantiated.Global
 public class GraphQlErrorFilter : IErrorFilter
 {
+    // Transform exceptions into pretty error messages
     public IError OnError(IError error)
     {
         return error.Exception switch
