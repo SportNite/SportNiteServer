@@ -17,6 +17,8 @@
 In order to explore GraphQL API you can use GraphQL Playground. "Docs" tab (on the left side) shows interactive API explorer.
 Some queries/mutations have additional descriptions allowing developer better understanding.
 
+![graphql_playground.png](screenshots/graphql_playground.png)
+
 ## Building and running
 
 Easiest way to launch service is to utilize docker-compose setup:
