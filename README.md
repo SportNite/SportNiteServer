@@ -3,7 +3,7 @@
 ## About
 .NET Core-based API service exposing GraphQL interfaces for handling SportNite data
 
-## Architecture
+## Specification
 - written in ASP.NET Core (C#)
 - data is persisted in MySQL database (connection by Entity Framework Core)
 - packed into Docker container
@@ -12,6 +12,12 @@
 - uses https://open-meteo.com/ for weather forecast 
 - uses http://overpass-turbo.eu/ data for exposing list of OpenStreetMap sport-related places
 - Qodana code quality report: https://qodana.cloud/projects/3PE6p/reports/p4a7W
+
+## Architecture
+App is based on MVC pattern. It consists of 3 layers:
+- Presentation (aka View) - responsible for handling queries and mutations (`Data` module)
+- Services (aka Controllers) - responsible for business logic (`Services` module)
+- Model - responsible for data access (`Entites` and `Database` modules)
 
 ## Code organization
 #### `SportNiteServer` - main project with API and GraphQL interfaces
@@ -31,6 +37,17 @@
 #### `SportNiteServer.Tests` - project containing integration tests for API
 - `QueryIntegrationTests.cs` - integration tests for GraphQL queries
 - `MutationIntegrationTests.cs` - integration tests for GraphQL mutations
+
+### Interfaces
+
+- `Database/DatabaseContext.cs` - database context for Entity Framework Core
+- `Services/AuthService.cs` - service for handling authentication
+- `Services/OfferService.cs` - service for handling offers CRUD
+- `Services/PlaceService.cs` - service for handling places CRUD and seeding from file
+- `Services/WeatherService.cs` - service for requesting weather forecast from https://open-meteo.com/ 
+- `Services/ResponseService.cs` - service for handling responses CRUD, accepting or declining it
+- `Services/UserService.cs` - service for handling users management
+- `Services/Utils.cs` - contains utility functions
 
 ## GraphQL API
 In order to explore GraphQL API you can use GraphQL Playground. "Docs" tab (on the right side) shows interactive API explorer.
