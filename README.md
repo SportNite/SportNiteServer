@@ -27,7 +27,7 @@
 - `Assets` - module containing data for seeding database
 - `Data` - module containing `Query` and `Mutation` classes for GraphQL schema
 - `Exceptions` - module containing custom exceptions and exception handlers
-- 
+
 #### `SportNiteServer.Tests` - project containing integration tests for API
 - `QueryIntegrationTests.cs` - integration tests for GraphQL queries
 - `MutationIntegrationTests.cs` - integration tests for GraphQL mutations
@@ -62,6 +62,12 @@ If you want to change database for testing, create `SportNiteServer/.env` file w
 
 ```env
 MYSQL_CONNECTION="server=somehost ; port=3306 ; database=somedatabase ; user=someuser ; password=somepassword"
+```
+
+## Code quality report
+With `qodana` installed:
+```bash
+qodana scan --show-report
 ```
 
 ## License
