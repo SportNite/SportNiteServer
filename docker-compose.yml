@@ -19,6 +19,7 @@
       - database
     ports:
       - 7150:80
+    restart: always
     environment:
       MYSQL_CONNECTION: server=database ; port=3306 ; database=sportnite ; user=root ; password=12345678
 
