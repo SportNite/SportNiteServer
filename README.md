@@ -66,4 +66,4 @@ MYSQL_CONNECTION="server=somehost ; port=3306 ; database=somedatabase ; user=som
 
 ## License
 Project is licensed under the BSD 3-clause license. See [LICENSE](LICENSE) for more details.
-Dependencies licenses are listed in [dependencies-licenses](dependencies-licenses.md) file.
+Dependencies licenses are listed in [dependencies-licenses](dependencies-licenses.txt) file.
