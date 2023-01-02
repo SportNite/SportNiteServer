@@ -1,3 +1,4 @@
+using dotenv.net;
 using HotChocolate.AspNetCore;
 using HotChocolate.AspNetCore.Playground;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -8,6 +9,8 @@ using SportNiteServer.Database;
 using SportNiteServer.Entities;
 using SportNiteServer.Exceptions;
 using SportNiteServer.Services;
+
+DotEnv.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -7,3 +7,5 @@ riderModule.iml
 SportNiteServer.Tests/TestResults
 coverage
 SportNiteServer.Tests/coverage
+.env
+SportNiteServer/.env
