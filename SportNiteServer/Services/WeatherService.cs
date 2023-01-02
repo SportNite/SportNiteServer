@@ -10,7 +10,9 @@ public class WeatherService
     {
         try
         {
-            var response = await new HttpClient().GetAsync(
+            var client = new HttpClient();
+            client.Timeout = TimeSpan.FromSeconds(8);
+            var response = await client.GetAsync(
                 "https://api.open-meteo.com/v1/forecast?latitude=" + offer.Latitude + "&longitude=" + offer.Longitude +
                 "&hourly=temperature_2m,precipitation,windspeed_10m,rain&start_date=" +
                 offer.DateTime.ToString("yyyy-MM-dd") + "&end_date=" + offer.DateTime.ToString("yyyy-MM-dd"));
@@ -35,11 +37,13 @@ public class WeatherService
     {
         try
         {
-            var response = await new HttpClient().GetAsync("https://api.open-meteo.com/v1/forecast?latitude=" +
-                                                           latitude + "&longitude=" + longitude +
-                                                           "&hourly=temperature_2m,precipitation,windspeed_10m,rain&start_date=" +
-                                                           startDay.ToString("yyyy-MM-dd") + "&end_date=" +
-                                                           startDay.AddDays(7).ToString("yyyy-MM-dd"));
+            var client = new HttpClient();
+            client.Timeout = TimeSpan.FromSeconds(8);
+            var response = await client.GetAsync("https://api.open-meteo.com/v1/forecast?latitude=" +
+                                                 latitude + "&longitude=" + longitude +
+                                                 "&hourly=temperature_2m,precipitation,windspeed_10m,rain&start_date=" +
+                                                 startDay.ToString("yyyy-MM-dd") + "&end_date=" +
+                                                 startDay.AddDays(7).ToString("yyyy-MM-dd"));
             var responseString = await response.Content.ReadAsStringAsync();
             dynamic? data = JsonConvert.DeserializeObject(responseString);
             if (data == null) return null;
