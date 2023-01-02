@@ -19,4 +19,3 @@ References:
  | Pomelo.EntityFrameworkCore.MySql.NetTopologySuite | 6.0.2             | MIT          | https://licenses.nuget.org/MIT                                                       | 
  | Sentry.AspNetCore                                 | 3.23.1            | MIT          | https://licenses.nuget.org/MIT                                                       | 
  | Swashbuckle.AspNetCore                            | 6.2.3             | MIT          | https://licenses.nuget.org/MIT                                                       | 
-
