@@ -10,6 +10,7 @@
     volumes:
       - sportnite_database:/var/lib/mysql
   api:
+    image: ghcr.io/sportnite/sportniteserver:vc556e5695f6db248eed018ee200d678c4f4684c5
     build:
       dockerfile: SportNiteServer/Dockerfile
     networks:
