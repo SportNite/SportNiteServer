@@ -41,8 +41,8 @@ jobs:
       with:
         trx_files: "SportNiteServer.Tests/TestResults/**/*.trx"
 
-    - name: Coveralls
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        path-to-lcov: SportNiteServer.Tests/Coverage/coverage.info
+#    - name: Coveralls
+#      uses: coverallsapp/github-action@master
+#      with:
+#        github-token: ${{ secrets.GITHUB_TOKEN }}
+#        path-to-lcov: SportNiteServer.Tests/Coverage/coverage.info

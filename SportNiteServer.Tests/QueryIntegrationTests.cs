@@ -218,7 +218,7 @@ public class QueryIntegrationTests
     {
         var result =
             await Query(
-                "query {  forecast(startDay: \"2022-12-12\", latitude: 1, longitude: 1) {    windSpeed    precipitation    temperature    dateTime  }}");
+                "query {  forecast(startDay: \"2022-12-05\", latitude: 1, longitude: 1) {    windSpeed    precipitation    temperature    dateTime  }}");
         for (var i = 10; i < 20; i++) StringAssert.Contains($"{i}:00:00.000", result);
     }
 }
