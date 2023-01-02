@@ -1,6 +1,7 @@
 using dotenv.net;
 using HotChocolate.AspNetCore;
 using HotChocolate.AspNetCore.Playground;
+using HotChocolate.Execution.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -73,7 +74,8 @@ builder.Services
     .AddQueryType<Query>()
     .AddMutationType<Mutation>()
     .AddErrorFilter<GraphQlErrorFilter>()
-    .SetRequestOptions(_ => new HotChocolate.Execution.Options.RequestExecutorOptions { ExecutionTimeout = TimeSpan.FromMinutes(10) })
+    .AddApolloTracing(TracingPreference.Always)
+    .SetRequestOptions(_ => new RequestExecutorOptions { ExecutionTimeout = TimeSpan.FromMinutes(10) })
     .ModifyRequestOptions(opt => opt.IncludeExceptionDetails = true);
 
 var app = builder.Build();
