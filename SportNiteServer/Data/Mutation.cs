@@ -88,6 +88,7 @@ public class Mutation
     [GraphQLDescription("Import places from OSM Overpass API dump")]
     public async Task<int> ImportPlaces(PlaceService placeService)
     {
+        // Seed the database with places file (Assets module)
         return await placeService.ImportPlaces();
     }
 }
