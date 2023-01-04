@@ -42,6 +42,9 @@ public class OfferService
         var offer = await _databaseContext.Offers.Where(x => x.UserId == user.UserId && x.OfferId == id).FirstAsync();
         _databaseContext.Offers.Remove(offer);
         await _databaseContext.SaveChangesAsync();
+        var responses = await _databaseContext.Responses.Where(x => x.OfferId == id).ToListAsync();
+        _databaseContext.RemoveRange(responses);
+        await _databaseContext.SaveChangesAsync();
         return offer;
     }
 
