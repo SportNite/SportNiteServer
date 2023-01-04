@@ -4,6 +4,7 @@
   &lt;TestAncestor&gt;
     &lt;TestId&gt;NUnit3x::93C43F9F-3F89-4DAD-B168-48F6FC977A9C::net6.0::SportNiteServer.Tests.QueryIntegrationTests&lt;/TestId&gt;
     &lt;TestId&gt;NUnit3x::93C43F9F-3F89-4DAD-B168-48F6FC977A9C::net6.0::SportNiteServer.Tests.MutationIntegrationTests&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::93C43F9F-3F89-4DAD-B168-48F6FC977A9C::net6.0::SportNiteServer.Tests.UtilsUnitTests&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
 	
