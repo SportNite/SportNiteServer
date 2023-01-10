@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Security.Claims;
 using SportNiteServer.Services;
 
 namespace SportNiteServer.Entities;
@@ -70,6 +71,7 @@ public class Offer
 
     // ReSharper disable once PropertyCanBeMadeInitOnly.Global
     public string City { get; set; } = "";
+
     // ReSharper disable once PropertyCanBeMadeInitOnly.Global
     public string Street { get; set; } = "";
 
@@ -77,5 +79,11 @@ public class Offer
     public async Task<User> User([Service] UserService userService)
     {
         return await userService.GetUserById(UserId) ?? throw new Exception("user_not_found");
+    }
+
+    public async Task<Response> MyResponse([Service] ResponseService responseService, [Service] AuthService authService,
+        ClaimsPrincipal claimsPrincipal)
+    {
+        return await responseService.GetMyResponse(OfferId, await authService.GetUser(claimsPrincipal));
     }
 }

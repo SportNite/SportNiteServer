@@ -99,4 +99,9 @@ public class ResponseService
 
         return response;
     }
+
+    public async Task<Response> GetMyResponse(Guid offerId, User user)
+    {
+        return await _databaseContext.Responses.FirstAsync(x => x.OfferId == offerId && x.UserId == user.UserId);
+    }
 }
