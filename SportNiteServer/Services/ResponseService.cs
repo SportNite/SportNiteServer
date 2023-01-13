@@ -102,7 +102,7 @@ public class ResponseService
 
     public async Task<Response?> GetMyResponse(Guid offerId, User user)
     {
-        if (await _databaseContext.Responses.AnyAsync(x => x.OfferId == offerId && x.UserId == user.UserId))
+        if (!await _databaseContext.Responses.AnyAsync(x => x.OfferId == offerId && x.UserId == user.UserId))
             return null;
         return await _databaseContext.Responses.FirstAsync(x => x.OfferId == offerId && x.UserId == user.UserId);
     }
