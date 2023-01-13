@@ -81,7 +81,8 @@ public class Offer
         return await userService.GetUserById(UserId) ?? throw new Exception("user_not_found");
     }
 
-    public async Task<Response> MyResponse([Service] ResponseService responseService, [Service] AuthService authService,
+    public async Task<Response?> MyResponse([Service] ResponseService responseService,
+        [Service] AuthService authService,
         ClaimsPrincipal claimsPrincipal)
     {
         return await responseService.GetMyResponse(OfferId, await authService.GetUser(claimsPrincipal));
