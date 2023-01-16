@@ -54,6 +54,10 @@ App is based on MVC pattern. It consists of 3 layers:
 In order to explore GraphQL API you can use GraphQL Playground. "Docs" tab (on the right side) shows interactive API explorer.
 Some queries/mutations have additional descriptions for better understanding by the developer.
 
+https://projektinzynieria.bieszczadywysokie.pl/playground/
+
+Use following API URL: https://projektinzynieria.bieszczadywysokie.pl/playground/../graphql
+
 ![graphql_playground.png](screenshots/graphql_playground.png)
 
 ## Building and running
