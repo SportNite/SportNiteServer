@@ -41,6 +41,7 @@ builder.Services.AddTransient<OfferService>();
 builder.Services.AddTransient<ResponseService>();
 builder.Services.AddTransient<WeatherService>();
 builder.Services.AddTransient<NotificationService>();
+builder.Services.AddTransient<DeviceService>();
 builder.Services.AddSingleton<PlaceService>();
 builder.Services.AddSingleton<UserService>();
 
@@ -78,6 +79,7 @@ builder.Services
     .RegisterService<PlaceService>()
     .RegisterService<UserService>()
     .RegisterService<NotificationService>()
+    .RegisterService<DeviceService>()
     .AddQueryType<Query>()
     .AddMutationType<Mutation>()
     .AddErrorFilter<GraphQlErrorFilter>()

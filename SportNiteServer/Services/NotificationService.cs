@@ -18,7 +18,8 @@ public class NotificationService
         _databaseContext = databaseContext;
         FirebaseApp.Create(new AppOptions
         {
-            Credential = GoogleCredential.FromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "/secret/fcm-key.json")),
+            Credential =
+                GoogleCredential.FromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "/secret/fcm-key.json")),
         });
     }
 
@@ -28,20 +29,23 @@ public class NotificationService
         notification.UserId = user.UserId;
         _databaseContext.Notifications.Add(notification);
         await _databaseContext.SaveChangesAsync();
-        if (user.MessagingToken == null) return;
-        var message = new Message
+
+        foreach (var device in await _databaseContext.Devices.Where(x => x.UserId == user.UserId).ToListAsync())
         {
-            Notification = new FirebaseAdmin.Messaging.Notification
+            var message = new Message
             {
-                Title = notification.Title,
-                Body = notification.Body
-            },
-            Topic = notification.Type.ToString(),
-            Token = user.MessagingToken
-        };
-        var messaging = FirebaseMessaging.DefaultInstance;
-        var result = await messaging.SendAsync(message);
-        Console.Write(result);
+                Notification = new FirebaseAdmin.Messaging.Notification
+                {
+                    Title = notification.Title,
+                    Body = notification.Body
+                },
+                Topic = notification.Type.ToString(),
+                Token = device.Token
+            };
+            var messaging = FirebaseMessaging.DefaultInstance;
+            var result = await messaging.SendAsync(message);
+            Console.Write(result);
+        }
     }
 
     public IEnumerable<Notification> GetNotifications(User user)

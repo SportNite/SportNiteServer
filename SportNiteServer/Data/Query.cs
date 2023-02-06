@@ -86,4 +86,8 @@ public class Query
         AuthService authService,
         [Service] NotificationService notificationService) =>
         notificationService.GetNotifications(await authService.GetUser(claimsPrincipal));
+
+    public async Task<IEnumerable<Device>> GetDevices(ClaimsPrincipal claimsPrincipal, AuthService authService,
+        [Service] DeviceService deviceService)
+        => deviceService.GetDevices(await authService.GetUser(claimsPrincipal));
 }

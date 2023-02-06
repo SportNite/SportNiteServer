@@ -60,17 +60,18 @@ public class Mutation
             id);
     }
 
-    
+
     public async Task<Skill> SetSkill(SetSkillInput input, AuthService authService, ClaimsPrincipal claimsPrincipal)
     {
         return await authService.SetSkill(await authService.GetUser(claimsPrincipal), input);
     }
 
-    public async Task<Skill> DeleteSkill(Offer.SportType sportType, AuthService authService, ClaimsPrincipal claimsPrincipal)
+    public async Task<Skill> DeleteSkill(Offer.SportType sportType, AuthService authService,
+        ClaimsPrincipal claimsPrincipal)
     {
         return await authService.DeleteSkill(await authService.GetUser(claimsPrincipal), sportType);
     }
-    
+
     [GraphQLDescription("Add another place to exist alongside OSM places")]
     public async Task<Place> CreatePlace(CreatePlaceInput input, PlaceService placeService, AuthService authService,
         ClaimsPrincipal claimsPrincipal)
@@ -78,7 +79,7 @@ public class Mutation
         return await placeService.CreatePlace(await authService.GetUser(claimsPrincipal),
             input);
     }
-    
+
     public async Task<Place> DeletePlace(long id, PlaceService placeService, AuthService authService,
         ClaimsPrincipal claimsPrincipal)
     {
@@ -90,5 +91,27 @@ public class Mutation
     {
         // Seed the database with places file (Assets module)
         return await placeService.ImportPlaces();
+    }
+
+    public async Task<Device> CreateDevice(CreateDeviceInput input, [Service] DeviceService deviceService,
+        AuthService authService,
+        ClaimsPrincipal claimsPrincipal)
+    {
+        return await deviceService.CreateDevice(await authService.GetUser(claimsPrincipal),
+            input);
+    }
+
+    public async Task<Device> UpdateDevice(UpdateDeviceInput input, [Service] DeviceService deviceService,
+        AuthService authService,
+        ClaimsPrincipal claimsPrincipal)
+    {
+        return await deviceService.UpdateDevice(await authService.GetUser(claimsPrincipal),
+            input);
+    }
+
+    public async Task<Device> DeleteDevice(Guid id, [Service] DeviceService deviceService, AuthService authService,
+        ClaimsPrincipal claimsPrincipal)
+    {
+        return await deviceService.DeleteDevice(await authService.GetUser(claimsPrincipal), id);
     }
 }
