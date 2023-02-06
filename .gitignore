@@ -9,3 +9,4 @@ coverage
 SportNiteServer.Tests/coverage
 .env
 SportNiteServer/.env
+SportNiteServer/fcm-key.json

@@ -8,10 +8,12 @@ namespace SportNiteServer.Services;
 public class ResponseService
 {
     private readonly DatabaseContext _databaseContext;
+    private readonly NotificationService _notificationService;
 
-    public ResponseService(DatabaseContext databaseContext)
+    public ResponseService(DatabaseContext databaseContext, NotificationService notificationService)
     {
         _databaseContext = databaseContext;
+        _notificationService = notificationService;
     }
 
     public async Task<Response?> CreateResponse(User user, CreateResponseInput input)
@@ -31,6 +33,15 @@ public class ResponseService
             response.ResponseId = input.ResponseId.Value;
         await _databaseContext.Responses.AddAsync(response);
         await _databaseContext.SaveChangesAsync();
+
+        await _notificationService.Push(new Notification
+        {
+            Title = "Nowa odpowiedź do twojej oferty",
+            Body = "",
+            Type = Notification.NotificationType.NewResponse,
+            UserId = (await _databaseContext.Offers.FirstAsync(x => x.OfferId == input.OfferId)).UserId,
+        });
+
         return response;
     }
 
@@ -53,6 +64,15 @@ public class ResponseService
             .FirstAsync();
         _databaseContext.Responses.Remove(response);
         await _databaseContext.SaveChangesAsync();
+
+        await _notificationService.Push(new Notification
+        {
+            Title = "Odpowiedź do twojej oferty została usunięta",
+            Body = "",
+            Type = Notification.NotificationType.NewResponse,
+            UserId = (await _databaseContext.Offers.FirstAsync(x => x.OfferId == response.OfferId)).UserId,
+        });
+
         return response;
     }
 
@@ -69,6 +89,15 @@ public class ResponseService
             return null;
         response.Status = Response.ResponseStatus.Rejected;
         await _databaseContext.SaveChangesAsync();
+
+        await _notificationService.Push(new Notification
+        {
+            Title = "Autor oferty odrzucił twoją odpowiedź",
+            Body = "",
+            Type = Notification.NotificationType.NewResponse,
+            UserId = response.UserId,
+        });
+
         return response;
     }
 
@@ -96,6 +125,14 @@ public class ResponseService
         offer.IsAvailable = false;
         _databaseContext.Update(offer);
         await _databaseContext.SaveChangesAsync();
+
+        await _notificationService.Push(new Notification
+        {
+            Title = "Autor oferty zatwierdził twoją odpowiedź",
+            Body = "",
+            Type = Notification.NotificationType.NewResponse,
+            UserId = response.UserId,
+        });
 
         return response;
     }

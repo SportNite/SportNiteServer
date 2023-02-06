@@ -42,6 +42,7 @@ builder.Services.AddTransient<ResponseService>();
 builder.Services.AddTransient<WeatherService>();
 builder.Services.AddSingleton<PlaceService>();
 builder.Services.AddSingleton<UserService>();
+builder.Services.AddSingleton<NotificationService>();
 
 // Setup JWT Token decoding (Firebase issuer)
 builder.Services
@@ -76,6 +77,7 @@ builder.Services
     .RegisterService<WeatherService>()
     .RegisterService<PlaceService>()
     .RegisterService<UserService>()
+    .RegisterService<NotificationService>()
     .AddQueryType<Query>()
     .AddMutationType<Mutation>()
     .AddErrorFilter<GraphQlErrorFilter>()

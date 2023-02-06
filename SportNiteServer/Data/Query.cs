@@ -79,4 +79,11 @@ public class Query
     {
         return await offerService.GetIncomingOffers(await authService.GetUser(claimsPrincipal));
     }
+
+    [UseFiltering]
+    [UseSorting]
+    public async Task<IEnumerable<Notification>> GetNotifications(ClaimsPrincipal claimsPrincipal,
+        AuthService authService,
+        NotificationService notificationService) =>
+        notificationService.GetNotifications(await authService.GetUser(claimsPrincipal));
 }

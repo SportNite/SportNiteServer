@@ -12,4 +12,5 @@ public class UpdateUserInput
     public string? City { get; set; }
     public string? Availability { get; set; }
     public string? Bio { get; set; }
+    public string? MessagingToken { get; set; }
 }

@@ -1,10 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace SportNiteServer.Entities;
+
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable once ClassNeverInstantiated.Global
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
-
 public class User
 {
     [Key] public Guid UserId { get; set; }
@@ -26,4 +26,6 @@ public class User
     [GraphQLIgnore] public List<Response> Responses { get; set; } = new();
     [GraphQLDescription("User skills")] public List<Skill> Skills { get; set; } = new();
     public string? Phone { get; set; }
+
+    public string? MessagingToken { get; set; }
 }

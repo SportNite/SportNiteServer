@@ -54,6 +54,7 @@ public class AuthService
         if (payload.Sex != null) user.Sex = payload.Sex.Value;
         if (payload.BirthDate != null) user.BirthDate = payload.BirthDate.Value;
         if (payload.Avatar != null) user.Avatar = payload.Avatar;
+        if (payload.MessagingToken != null) user.MessagingToken = payload.MessagingToken;
         await _databaseContext.SaveChangesAsync();
         return user;
     }
