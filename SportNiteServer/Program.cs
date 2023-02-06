@@ -40,9 +40,9 @@ builder.Services.AddTransient<AuthService>();
 builder.Services.AddTransient<OfferService>();
 builder.Services.AddTransient<ResponseService>();
 builder.Services.AddTransient<WeatherService>();
+builder.Services.AddTransient<NotificationService>();
 builder.Services.AddSingleton<PlaceService>();
 builder.Services.AddSingleton<UserService>();
-builder.Services.AddSingleton<NotificationService>();
 
 // Setup JWT Token decoding (Firebase issuer)
 builder.Services
