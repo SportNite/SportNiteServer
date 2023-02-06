@@ -10,6 +10,7 @@ public class DatabaseContext : DbContext
     public DbSet<Response> Responses => Set<Response>();
     public DbSet<Skill> Skills => Set<Skill>();
     public DbSet<Place> Places => Set<Place>();
+    public DbSet<Notification> Notifications => Set<Notification>();
 
     // Connect to database using connection string from environment variable
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
