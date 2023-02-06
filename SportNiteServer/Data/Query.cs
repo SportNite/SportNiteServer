@@ -84,6 +84,6 @@ public class Query
     [UseSorting]
     public async Task<IEnumerable<Notification>> GetNotifications(ClaimsPrincipal claimsPrincipal,
         AuthService authService,
-        NotificationService notificationService) =>
+        [Service] NotificationService notificationService) =>
         notificationService.GetNotifications(await authService.GetUser(claimsPrincipal));
 }
