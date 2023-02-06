@@ -27,6 +27,7 @@ public class QueryIntegrationTests
     public async Task Setup()
     {
         // Setup DI
+        // 
         var serviceCollection = new ServiceCollection()
             .AddDbContext<DatabaseContext>(ServiceLifetime.Transient)
             .AddTransient<AuthService>()
