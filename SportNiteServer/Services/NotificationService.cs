@@ -41,7 +41,12 @@ public class NotificationService
                     Title = notification.Title,
                     Body = notification.Body
                 },
-                Topic = notification.Type.ToString(),
+                Data = new Dictionary<string, string>
+                {
+                    {
+                        "TYPE", notification.Type.ToString()
+                    }
+                },
                 Token = device.Token
             };
             var messaging = FirebaseMessaging.DefaultInstance;
