@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace SportNiteServer.Entities;
 
 public class Device
