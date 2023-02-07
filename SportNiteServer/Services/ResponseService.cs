@@ -69,7 +69,7 @@ public class ResponseService
         {
             Title = "Odpowiedź do twojej oferty została usunięta",
             Body = "",
-            Type = Notification.NotificationType.NewResponse,
+            Type = Notification.NotificationType.ResponseCancelled,
             UserId = (await _databaseContext.Offers.FirstAsync(x => x.OfferId == response.OfferId)).UserId,
         });
 
@@ -94,7 +94,7 @@ public class ResponseService
         {
             Title = "Autor oferty odrzucił twoją odpowiedź",
             Body = "",
-            Type = Notification.NotificationType.NewResponse,
+            Type = Notification.NotificationType.MyResponseRejected,
             UserId = response.UserId,
         });
 
@@ -130,7 +130,7 @@ public class ResponseService
         {
             Title = "Autor oferty zatwierdził twoją odpowiedź",
             Body = "",
-            Type = Notification.NotificationType.NewResponse,
+            Type = Notification.NotificationType.MyResponseAccepted,
             UserId = response.UserId,
         });
 
