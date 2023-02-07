@@ -93,20 +93,10 @@ public class Mutation
         return await placeService.ImportPlaces();
     }
 
-    public async Task<Device> CreateDevice(CreateDeviceInput input, [Service] DeviceService deviceService,
-        AuthService authService,
-        ClaimsPrincipal claimsPrincipal)
+    public async Task<Device> SetDevice(SetDeviceInput input, [Service] DeviceService deviceService,
+        AuthService authService, ClaimsPrincipal claimsPrincipal)
     {
-        return await deviceService.CreateDevice(await authService.GetUser(claimsPrincipal),
-            input);
-    }
-
-    public async Task<Device> UpdateDevice(UpdateDeviceInput input, [Service] DeviceService deviceService,
-        AuthService authService,
-        ClaimsPrincipal claimsPrincipal)
-    {
-        return await deviceService.UpdateDevice(await authService.GetUser(claimsPrincipal),
-            input);
+        return await deviceService.SetDevice(await authService.GetUser(claimsPrincipal), input);
     }
 
     public async Task<Device> DeleteDevice(Guid id, [Service] DeviceService deviceService, AuthService authService,
