@@ -16,11 +16,13 @@ public class NotificationService
     public NotificationService(DatabaseContext databaseContext)
     {
         _databaseContext = databaseContext;
-        FirebaseApp.Create(new AppOptions
-        {
-            Credential =
-                GoogleCredential.FromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "/secret/fcm-key.json")),
-        });
+        if (FirebaseApp.DefaultInstance == null)
+            FirebaseApp.Create(new AppOptions
+            {
+                Credential =
+                    GoogleCredential.FromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                        "/secret/fcm-key.json")),
+            });
     }
 
     public async Task Push(Notification notification)
