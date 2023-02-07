@@ -36,10 +36,14 @@ public class NotificationService
         {
             var message = new Message
             {
-                Notification = new FirebaseAdmin.Messaging.Notification
+                Android = new AndroidConfig
                 {
-                    Title = notification.Title,
-                    Body = notification.Body
+                    Notification = new AndroidNotification
+                    {
+                        Title = notification.Title,
+                        Body = notification.Body,
+                        ChannelId = notification.Type.ToString()
+                    },
                 },
                 Data = new Dictionary<string, string>
                 {
