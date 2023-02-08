@@ -80,6 +80,7 @@ public class Query
         return await offerService.GetIncomingOffers(await authService.GetUser(claimsPrincipal));
     }
 
+    [UsePaging]
     [UseFiltering]
     [UseSorting]
     public async Task<IEnumerable<Notification>> GetNotifications(ClaimsPrincipal claimsPrincipal,
