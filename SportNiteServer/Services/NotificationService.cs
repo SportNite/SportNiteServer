@@ -60,5 +60,5 @@ public class NotificationService
     }
 
     public IEnumerable<Notification> GetNotifications(User user)
-        => _databaseContext.Notifications.Where(n => n.UserId == user.UserId).OrderBy(n => n.DateTime);
+        => _databaseContext.Notifications.Where(n => n.UserId == user.UserId).OrderByDescending(n => n.DateTime);
 }
