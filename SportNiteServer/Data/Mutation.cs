@@ -29,6 +29,12 @@ public class Mutation
     {
         return await offerService.DeleteOffer(await authService.GetUser(claimsPrincipal), id);
     }
+    
+    public async Task<Offer> CancelOffer(Guid id, OfferService offerService, AuthService authService,
+        ClaimsPrincipal claimsPrincipal)
+    {
+        return await offerService.CancelOffer(await authService.GetUser(claimsPrincipal), id);
+    }
 
     public async Task<Response?> CreateResponse(CreateResponseInput input, ResponseService responseService,
         AuthService authService, ClaimsPrincipal claimsPrincipal)

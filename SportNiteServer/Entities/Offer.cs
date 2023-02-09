@@ -75,6 +75,8 @@ public class Offer
     // ReSharper disable once PropertyCanBeMadeInitOnly.Global
     public string Street { get; set; } = "";
 
+    public bool IsCanceled { get; set; }
+
     [GraphQLDescription("Author of the offer")]
     public async Task<User> User([Service] UserService userService)
     {

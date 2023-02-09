@@ -101,4 +101,19 @@ public class OfferService
             })
             .SelectAsync(InjectWeather);
     }
+
+    public async Task<Offer> CancelOffer(User user, Guid id)
+    {
+        var offer = await _databaseContext.Offers.Where(x => x.OfferId == id).FirstAsync();
+        if (offer.UserId != user.UserId) return offer;
+        if (!await _databaseContext.Responses
+                .Where(x => x.UserId == user.UserId &&
+                            x.OfferId == offer.OfferId &&
+                            x.Status == Response.ResponseStatus.Approved).AnyAsync()) return offer;
+        offer.IsCanceled = true;
+        _databaseContext.Offers.Update(offer);
+        await _databaseContext.SaveChangesAsync();
+
+        return offer;
+    }
 }
